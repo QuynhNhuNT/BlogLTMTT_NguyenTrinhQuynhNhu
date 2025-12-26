@@ -1,0 +1,14 @@
+<svg width="804" height="452" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="eventGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="804" height="452" fill="url(#eventGrad)"/>
+  <text x="402" y="200" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="white" text-anchor="middle">Event Loop</text>
+  <text x="402" y="250" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">Asynchronous Processing</text>
+  <circle cx="402" cy="100" r="25" fill="rgba(255,255,255,0.2)"/>
+  <circle cx="402" cy="352" r="35" fill="rgba(255,255,255,0.15)"/>
+</svg>
+

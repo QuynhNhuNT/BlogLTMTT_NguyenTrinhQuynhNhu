@@ -1,0 +1,204 @@
+---
+title: "Arrow Functions trong JavaScript - Cú pháp ngắn gọn và this binding"
+description: "Tìm hiểu về Arrow Functions, sự khác biệt với function thường và cách sử dụng hiệu quả"
+image: "/images/blog/arrow-functions.svg"
+date: "2024-06-16"
+author: "devbertskie"
+---
+
+Arrow Functions là một trong những tính năng phổ biến nhất của ES6, giúp viết code ngắn gọn và rõ ràng hơn.
+
+## Cú pháp cơ bản
+
+### Function thường vs Arrow Function
+
+```js
+// Function thường
+function add(a, b) {
+  return a + b;
+}
+
+// Arrow Function
+const add = (a, b) => {
+  return a + b;
+};
+
+// Arrow Function ngắn gọn (implicit return)
+const add = (a, b) => a + b;
+```
+
+## Các dạng Arrow Function
+
+### Một tham số
+
+```js
+// Không cần dấu ngoặc đơn
+const square = x => x * x;
+console.log(square(5)); // 25
+```
+
+### Nhiều tham số
+
+```js
+const multiply = (a, b) => a * b;
+console.log(multiply(3, 4)); // 12
+```
+
+### Không có tham số
+
+```js
+const greet = () => "Xin chào!";
+console.log(greet()); // "Xin chào!"
+```
+
+### Nhiều dòng
+
+```js
+const processData = (data) => {
+  const processed = data.map(item => item * 2);
+  return processed.filter(item => item > 10);
+};
+```
+
+## This Binding
+
+Arrow functions không có `this` riêng, chúng kế thừa `this` từ scope bên ngoài:
+
+```js
+class Timer {
+  constructor() {
+    this.seconds = 0;
+  }
+
+  // Function thường - this thay đổi
+  startRegular() {
+    setInterval(function() {
+      this.seconds++; // ❌ Lỗi: this không phải Timer
+      console.log(this.seconds);
+    }, 1000);
+  }
+
+  // Arrow function - this giữ nguyên
+  startArrow() {
+    setInterval(() => {
+      this.seconds++; // ✅ Đúng: this là Timer
+      console.log(this.seconds);
+    }, 1000);
+  }
+}
+```
+
+## Sử dụng với Array Methods
+
+Arrow functions rất phù hợp với array methods:
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// map
+const doubled = numbers.map(n => n * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+// filter
+const evens = numbers.filter(n => n % 2 === 0);
+console.log(evens); // [2, 4]
+
+// reduce
+const sum = numbers.reduce((acc, n) => acc + n, 0);
+console.log(sum); // 15
+
+// forEach
+numbers.forEach(n => console.log(n));
+```
+
+## Object Methods
+
+```js
+const person = {
+  name: "Quỳnh Như",
+  greet: () => {
+    // ❌ this không phải person
+    console.log(`Xin chào, tôi là ${this.name}`);
+  },
+  greetRegular: function() {
+    // ✅ this là person
+    console.log(`Xin chào, tôi là ${this.name}`);
+  }
+};
+```
+
+## Event Handlers
+
+```js
+// Arrow function trong event handler
+button.addEventListener('click', () => {
+  console.log('Button clicked');
+  // this ở đây là window, không phải button
+});
+
+// Function thường
+button.addEventListener('click', function() {
+  console.log('Button clicked');
+  // this là button
+});
+```
+
+## Không thể dùng làm Constructor
+
+```js
+// ❌ Lỗi
+const Person = (name) => {
+  this.name = name;
+};
+const person = new Person("Quỳnh Như"); // TypeError
+
+// ✅ Đúng
+function Person(name) {
+  this.name = name;
+}
+const person = new Person("Quỳnh Như");
+```
+
+## Không có arguments object
+
+```js
+// Function thường
+function regular() {
+  console.log(arguments); // Arguments object
+}
+
+// Arrow function
+const arrow = () => {
+  console.log(arguments); // ❌ Lỗi
+};
+
+// ✅ Sử dụng rest parameters
+const arrow = (...args) => {
+  console.log(args); // Array
+};
+```
+
+## Khi nào dùng Arrow Function?
+
+### ✅ Nên dùng:
+- Callbacks ngắn gọn
+- Array methods
+- Khi cần giữ `this` từ scope bên ngoài
+- Functional programming
+
+### ❌ Không nên dùng:
+- Object methods (cần `this` riêng)
+- Event handlers (cần `this` là element)
+- Constructor functions
+- Khi cần `arguments` object
+
+## Kết luận
+
+Arrow Functions giúp:
+- Code ngắn gọn và dễ đọc hơn
+- Tránh vấn đề với `this` binding
+- Phù hợp với functional programming
+- Tăng năng suất viết code
+
+Arrow Functions là công cụ mạnh mẽ trong JavaScript hiện đại!
+

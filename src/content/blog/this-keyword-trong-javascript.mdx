@@ -1,0 +1,303 @@
+---
+title: "Từ khóa 'this' trong JavaScript - Hiểu rõ và áp dụng"
+description: "Hướng dẫn chi tiết về từ khóa 'this' trong JavaScript và cách nó hoạt động"
+image: "/images/blog/this-keyword.svg"
+date: "2024-06-05"
+author: "devbertskie"
+---
+
+Từ khóa `this` là một trong những khái niệm khó hiểu nhất trong JavaScript. Giá trị của `this` phụ thuộc vào cách function được gọi, không phải nơi nó được định nghĩa.
+
+## 'this' trong các ngữ cảnh khác nhau
+
+### 1. Global Context
+
+Trong global scope, `this` trỏ đến global object (window trong browser, global trong Node.js):
+
+```js
+console.log(this); // Window object (trong browser)
+
+function globalFunction() {
+  console.log(this); // Window object
+}
+
+globalFunction();
+```
+
+### 2. Method Context
+
+Khi function được gọi như một method của object, `this` trỏ đến object đó:
+
+```js
+const person = {
+  name: "Nguyễn Văn A",
+  greet: function() {
+    console.log(`Xin chào, tôi là ${this.name}`);
+  }
+};
+
+person.greet(); // "Xin chào, tôi là Nguyễn Văn A"
+```
+
+### 3. Constructor Context
+
+Trong constructor function, `this` trỏ đến instance mới được tạo:
+
+```js
+function Person(name) {
+  this.name = name;
+  this.greet = function() {
+    console.log(`Xin chào, tôi là ${this.name}`);
+  };
+}
+
+const person1 = new Person("Nguyễn Văn A");
+const person2 = new Person("Trần Thị B");
+
+person1.greet(); // "Xin chào, tôi là Nguyễn Văn A"
+person2.greet(); // "Xin chào, tôi là Trần Thị B"
+```
+
+### 4. Arrow Functions
+
+Arrow functions không có `this` riêng. Chúng kế thừa `this` từ scope bên ngoài (lexical this):
+
+```js
+const person = {
+  name: "Nguyễn Văn A",
+  hobbies: ["Đọc sách", "Nghe nhạc"],
+  
+  // Regular function - this trỏ đến person
+  showHobbiesRegular: function() {
+    this.hobbies.forEach(function(hobby) {
+      console.log(`${this.name} thích ${hobby}`); 
+      // ❌ this.name là undefined (this là window)
+    });
+  },
+  
+  // Arrow function - this kế thừa từ person
+  showHobbiesArrow: function() {
+    this.hobbies.forEach((hobby) => {
+      console.log(`${this.name} thích ${hobby}`); 
+      // ✅ this.name là "Nguyễn Văn A"
+    });
+  }
+};
+
+person.showHobbiesArrow();
+```
+
+## Vấn đề với 'this'
+
+### Mất 'this' khi gán method
+
+```js
+const person = {
+  name: "Nguyễn Văn A",
+  greet: function() {
+    console.log(`Xin chào, tôi là ${this.name}`);
+  }
+};
+
+const greetFunction = person.greet;
+greetFunction(); // ❌ "Xin chào, tôi là undefined"
+// this trỏ đến window, không phải person
+```
+
+### Giải pháp: bind(), call(), apply()
+
+#### bind()
+
+Tạo một function mới với `this` được ràng buộc cố định:
+
+```js
+const person = {
+  name: "Nguyễn Văn A",
+  greet: function() {
+    console.log(`Xin chào, tôi là ${this.name}`);
+  }
+};
+
+const boundGreet = person.greet.bind(person);
+boundGreet(); // ✅ "Xin chào, tôi là Nguyễn Văn A"
+
+// Ví dụ với tham số
+const person2 = {
+  name: "Trần Thị B"
+};
+
+function introduce(greeting, punctuation) {
+  console.log(`${greeting}, tôi là ${this.name}${punctuation}`);
+}
+
+const boundIntroduce = introduce.bind(person2, "Xin chào");
+boundIntroduce("!"); // "Xin chào, tôi là Trần Thị B!"
+```
+
+#### call()
+
+Gọi function với `this` cụ thể và các tham số riêng lẻ:
+
+```js
+const person1 = { name: "Nguyễn Văn A" };
+const person2 = { name: "Trần Thị B" };
+
+function greet(greeting) {
+  console.log(`${greeting}, tôi là ${this.name}`);
+}
+
+greet.call(person1, "Xin chào"); // "Xin chào, tôi là Nguyễn Văn A"
+greet.call(person2, "Chào bạn"); // "Chào bạn, tôi là Trần Thị B"
+```
+
+#### apply()
+
+Giống `call()` nhưng nhận tham số dưới dạng mảng:
+
+```js
+const person = { name: "Nguyễn Văn A" };
+
+function introduce(greeting, punctuation, time) {
+  console.log(`${greeting}, tôi là ${this.name}${punctuation} ${time}`);
+}
+
+introduce.apply(person, ["Xin chào", "!", "Hôm nay"]);
+// "Xin chào, tôi là Nguyễn Văn A! Hôm nay"
+```
+
+## Ví dụ thực tế
+
+### Event Handlers
+
+```js
+class Button {
+  constructor(text) {
+    this.text = text;
+    this.element = document.createElement('button');
+    this.element.textContent = text;
+    
+    // ❌ SAI - this sẽ mất khi event xảy ra
+    // this.element.addEventListener('click', this.handleClick);
+    
+    // ✅ ĐÚNG - bind this
+    this.element.addEventListener('click', this.handleClick.bind(this));
+    
+    // ✅ HOẶC - sử dụng arrow function
+    // this.element.addEventListener('click', () => this.handleClick());
+  }
+  
+  handleClick() {
+    console.log(`Button "${this.text}" được click!`);
+  }
+}
+```
+
+### Callback Functions
+
+```js
+class DataFetcher {
+  constructor(apiUrl) {
+    this.apiUrl = apiUrl;
+    this.data = null;
+  }
+  
+  fetchData() {
+    // ❌ SAI
+    fetch(this.apiUrl)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        this.data = data; // ❌ this không trỏ đến DataFetcher
+      });
+    
+    // ✅ ĐÚNG - arrow function
+    fetch(this.apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        this.data = data; // ✅ this trỏ đến DataFetcher
+      });
+  }
+}
+```
+
+## So sánh Regular Function vs Arrow Function
+
+```js
+const obj = {
+  name: "Object",
+  
+  regularFunction: function() {
+    console.log(this.name); // "Object"
+    
+    setTimeout(function() {
+      console.log(this.name); // undefined (this là window)
+    }, 1000);
+  },
+  
+  arrowFunction: function() {
+    console.log(this.name); // "Object"
+    
+    setTimeout(() => {
+      console.log(this.name); // "Object" (kế thừa this)
+    }, 1000);
+  }
+};
+
+obj.regularFunction();
+obj.arrowFunction();
+```
+
+## Best Practices
+
+### 1. Sử dụng Arrow Functions trong callbacks
+
+```js
+// ✅ Tốt
+const numbers = [1, 2, 3];
+numbers.forEach(num => {
+  console.log(this); // Kế thừa this từ scope bên ngoài
+});
+```
+
+### 2. Sử dụng bind() khi cần giữ this
+
+```js
+class Component {
+  constructor() {
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick() {
+    console.log(this); // Luôn trỏ đến Component instance
+  }
+}
+```
+
+### 3. Tránh arrow functions trong object methods khi cần this động
+
+```js
+const calculator = {
+  value: 0,
+  
+  // ❌ Arrow function - this không thể thay đổi
+  addArrow: (num) => {
+    this.value += num; // this không trỏ đến calculator
+  },
+  
+  // ✅ Regular function - this có thể thay đổi
+  addRegular: function(num) {
+    this.value += num; // this trỏ đến calculator
+  }
+};
+```
+
+## Kết luận
+
+- `this` phụ thuộc vào cách function được gọi
+- Arrow functions kế thừa `this` từ scope bên ngoài
+- Sử dụng `bind()`, `call()`, `apply()` để kiểm soát `this`
+- Hiểu rõ context khi sử dụng `this` sẽ giúp tránh lỗi
+
+Nắm vững `this` sẽ giúp bạn viết code JavaScript chính xác và hiệu quả hơn!
+

@@ -22,7 +22,7 @@
 
 [data-rehype-pretty-code-figure] [data-highlighted-line] {
   background: rgba(200, 200, 255, 0.1);
-  @apply border-l-blue-400;
+  @apply border-l-pink-500;
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-chars] {

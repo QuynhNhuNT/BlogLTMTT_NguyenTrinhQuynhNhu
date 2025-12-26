@@ -1,0 +1,166 @@
+---
+title: "Closure trong JavaScript - Hiểu rõ và áp dụng"
+description: "Tìm hiểu về Closure trong JavaScript, cách hoạt động và các ứng dụng thực tế trong lập trình"
+image: "/images/blog/closure.svg"
+date: "2024-06-01"
+author: "devbertskie"
+---
+
+Closure là một trong những khái niệm quan trọng nhất trong JavaScript. Hiểu rõ Closure sẽ giúp bạn viết code tốt hơn và tránh được nhiều lỗi phổ biến.
+
+## Closure là gì?
+
+Closure là khả năng của một function có thể truy cập vào các biến trong scope bên ngoài ngay cả khi function đó được thực thi ở một nơi khác.
+
+```js
+function outerFunction() {
+  const outerVariable = "Tôi là biến ngoài";
+  
+  function innerFunction() {
+    console.log(outerVariable); // Có thể truy cập outerVariable
+  }
+  
+  return innerFunction;
+}
+
+const myFunction = outerFunction();
+myFunction(); // In ra: "Tôi là biến ngoài"
+```
+
+Trong ví dụ trên, `innerFunction` vẫn có thể truy cập `outerVariable` ngay cả khi `outerFunction` đã kết thúc thực thi.
+
+## Cách hoạt động của Closure
+
+Khi một function được tạo ra, nó sẽ "nhớ" môi trường (environment) nơi nó được khai báo. Môi trường này bao gồm tất cả các biến trong scope tại thời điểm function được tạo.
+
+```js
+function createCounter() {
+  let count = 0;
+  
+  return function() {
+    count++;
+    return count;
+  };
+}
+
+const counter1 = createCounter();
+const counter2 = createCounter();
+
+console.log(counter1()); // 1
+console.log(counter1()); // 2
+console.log(counter2()); // 1 (biến count riêng biệt)
+```
+
+Mỗi lần gọi `createCounter()`, một closure mới được tạo với biến `count` riêng biệt.
+
+## Ứng dụng thực tế
+
+### 1. Data Privacy (Tính riêng tư dữ liệu)
+
+Closure giúp tạo ra các biến private trong JavaScript:
+
+```js
+function createBankAccount(initialBalance) {
+  let balance = initialBalance; // Biến private
+  
+  return {
+    deposit: function(amount) {
+      balance += amount;
+      return balance;
+    },
+    withdraw: function(amount) {
+      if (amount <= balance) {
+        balance -= amount;
+        return balance;
+      }
+      return "Không đủ số dư";
+    },
+    getBalance: function() {
+      return balance;
+    }
+  };
+}
+
+const account = createBankAccount(1000);
+console.log(account.getBalance()); // 1000
+account.deposit(500);
+console.log(account.getBalance()); // 1500
+// Không thể truy cập trực tiếp biến balance từ bên ngoài
+```
+
+### 2. Function Factories
+
+Tạo các function với cấu hình khác nhau:
+
+```js
+function createMultiplier(multiplier) {
+  return function(number) {
+    return number * multiplier;
+  };
+}
+
+const double = createMultiplier(2);
+const triple = createMultiplier(3);
+
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
+```
+
+### 3. Event Handlers và Callbacks
+
+Closure rất hữu ích khi làm việc với event handlers:
+
+```js
+function setupButton(buttonId, message) {
+  const button = document.getElementById(buttonId);
+  
+  button.addEventListener('click', function() {
+    alert(message); // Closure giữ lại giá trị message
+  });
+}
+
+setupButton('btn1', 'Xin chào!');
+setupButton('btn2', 'Tạm biệt!');
+```
+
+## Lưu ý quan trọng
+
+### Vấn đề với vòng lặp
+
+Một lỗi phổ biến khi sử dụng closure trong vòng lặp:
+
+```js
+// ❌ SAI
+for (var i = 0; i < 3; i++) {
+  setTimeout(function() {
+    console.log(i); // In ra 3, 3, 3
+  }, 1000);
+}
+
+// ✅ ĐÚNG - Sử dụng let
+for (let i = 0; i < 3; i++) {
+  setTimeout(function() {
+    console.log(i); // In ra 0, 1, 2
+  }, 1000);
+}
+
+// ✅ ĐÚNG - Sử dụng IIFE
+for (var i = 0; i < 3; i++) {
+  (function(j) {
+    setTimeout(function() {
+      console.log(j); // In ra 0, 1, 2
+    }, 1000);
+  })(i);
+}
+```
+
+## Kết luận
+
+Closure là một tính năng mạnh mẽ của JavaScript giúp:
+- Tạo ra các biến private
+- Xây dựng function factories
+- Quản lý state trong các callback và event handlers
+- Viết code module hóa và dễ bảo trì
+
+Hiểu rõ closure sẽ giúp bạn trở thành một JavaScript developer tốt hơn!
+

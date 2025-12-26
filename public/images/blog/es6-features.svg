@@ -1,0 +1,14 @@
+<svg width="804" height="452" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="es6Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="804" height="452" fill="url(#es6Grad)"/>
+  <text x="402" y="200" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="white" text-anchor="middle">ES6+ Features</text>
+  <text x="402" y="250" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">Modern JavaScript</text>
+  <polygon points="150,100 170,120 150,140 130,120" fill="rgba(255,255,255,0.2)"/>
+  <polygon points="634,312 654,332 634,352 614,332" fill="rgba(255,255,255,0.15)"/>
+</svg>
+

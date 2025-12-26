@@ -1,14 +1,14 @@
-import authorAvatar from "../../public/images/author/devbertskie.png";
+import authorAvatar from "../../public/images/author/avatar.jpg";
 export const siteConfig = {
-  name: "Mdx Blog Template",
+  name: "Như Tech Diary",
   description:
-    "MDX Blog Template is a simple implementation of a markdown static blog. Built with Next.js 14 and velite js.",
-  author: "devbertskie",
+    "Blog cá nhân về mạng máy tính, công nghệ và lập trình. Chia sẻ kiến thức và kinh nghiệm từ một kỹ sư mạng máy tính.",
+  author: "Nguyễn Trình Quỳnh Như",
   authorImage: authorAvatar,
   social: {
-    github: "https://github.com/devbertskie",
-    twitter: "https://twitter.com",
-    facebook: "https://facebook.com",
+    github: "https://github.com/QuynhNhuNT",
+    linkedin: "https://www.linkedin.com/in/nh%C6%B0-nguy%E1%BB%85n-tr%C3%ACnh-qu%E1%BB%B3nh-5957783a1/",
+    facebook: "https://www.facebook.com/ng.trinh.quynhnhu",
   },
 };
 

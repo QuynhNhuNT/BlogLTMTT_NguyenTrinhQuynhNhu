@@ -1,0 +1,189 @@
+---
+title: "Classes và OOP trong JavaScript - Lập trình hướng đối tượng"
+description: "Tìm hiểu về Classes, Inheritance, và các khái niệm OOP trong JavaScript ES6+"
+image: "/images/blog/classes-oop.svg"
+date: "2024-06-10"
+author: "devbertskie"
+---
+
+JavaScript hỗ trợ lập trình hướng đối tượng (OOP) thông qua Classes được giới thiệu trong ES6. Classes giúp code dễ đọc và tổ chức hơn.
+
+## Classes là gì?
+
+Classes là một cách để định nghĩa các đối tượng và các phương thức của chúng một cách có cấu trúc.
+
+```js
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  introduce() {
+    return `Xin chào, tôi là ${this.name}, ${this.age} tuổi.`;
+  }
+}
+
+const person = new Person("Quỳnh Như", 20);
+console.log(person.introduce()); // "Xin chào, tôi là Quỳnh Như, 20 tuổi."
+```
+
+## Constructor
+
+Constructor là phương thức đặc biệt được gọi khi tạo một instance mới của class:
+
+```js
+class Car {
+  constructor(brand, model) {
+    this.brand = brand;
+    this.model = model;
+    this.speed = 0;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    return this.speed;
+  }
+
+  brake() {
+    this.speed = Math.max(0, this.speed - 10);
+    return this.speed;
+  }
+}
+
+const myCar = new Car("Toyota", "Camry");
+myCar.accelerate(); // 10
+myCar.accelerate(); // 20
+```
+
+## Inheritance (Kế thừa)
+
+Classes có thể kế thừa từ classes khác bằng từ khóa `extends`:
+
+```js
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    return `${this.name} phát ra âm thanh.`;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name); // Gọi constructor của class cha
+    this.breed = breed;
+  }
+
+  speak() {
+    return `${this.name} sủa: Gâu gâu!`;
+  }
+
+  fetch() {
+    return `${this.name} đi lấy bóng!`;
+  }
+}
+
+const dog = new Dog("Max", "Golden Retriever");
+console.log(dog.speak()); // "Max sủa: Gâu gâu!"
+console.log(dog.fetch()); // "Max đi lấy bóng!"
+```
+
+## Static Methods
+
+Static methods là các phương thức thuộc về class chứ không phải instance:
+
+```js
+class MathHelper {
+  static add(a, b) {
+    return a + b;
+  }
+
+  static multiply(a, b) {
+    return a * b;
+  }
+}
+
+console.log(MathHelper.add(5, 3)); // 8
+console.log(MathHelper.multiply(4, 2)); // 8
+```
+
+## Getters và Setters
+
+Getters và Setters cho phép kiểm soát cách truy cập và thay đổi thuộc tính:
+
+```js
+class Temperature {
+  constructor(celsius) {
+    this._celsius = celsius;
+  }
+
+  get celsius() {
+    return this._celsius;
+  }
+
+  set celsius(value) {
+    if (value < -273.15) {
+      throw new Error("Nhiệt độ không thể thấp hơn -273.15°C");
+    }
+    this._celsius = value;
+  }
+
+  get fahrenheit() {
+    return (this._celsius * 9/5) + 32;
+  }
+}
+
+const temp = new Temperature(25);
+console.log(temp.fahrenheit); // 77
+temp.celsius = 30;
+console.log(temp.fahrenheit); // 86
+```
+
+## Private Fields
+
+ES2022 giới thiệu private fields với dấu `#`:
+
+```js
+class BankAccount {
+  #balance = 0; // Private field
+
+  constructor(initialBalance) {
+    this.#balance = initialBalance;
+  }
+
+  deposit(amount) {
+    this.#balance += amount;
+    return this.#balance;
+  }
+
+  withdraw(amount) {
+    if (amount <= this.#balance) {
+      this.#balance -= amount;
+      return this.#balance;
+    }
+    return "Không đủ số dư";
+  }
+
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+const account = new BankAccount(1000);
+console.log(account.getBalance()); // 1000
+// console.log(account.#balance); // Lỗi: Private field không thể truy cập
+```
+
+## Kết luận
+
+Classes trong JavaScript giúp:
+- Tổ chức code theo cấu trúc rõ ràng
+- Tái sử dụng code thông qua inheritance
+- Quản lý state và behavior của đối tượng
+- Viết code dễ bảo trì và mở rộng
+
+Hiểu rõ Classes và OOP sẽ giúp bạn xây dựng các ứng dụng phức tạp một cách có tổ chức!
+

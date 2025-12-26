@@ -1,0 +1,113 @@
+---
+title: "Modules và Import/Export trong JavaScript"
+description: "Tìm hiểu cách sử dụng ES6 Modules để tổ chức và chia sẻ code giữa các file"
+image: "/images/blog/modules.svg"
+date: "2024-06-11"
+author: "devbertskie"
+---
+
+ES6 Modules là cách hiện đại để tổ chức code JavaScript thành các module riêng biệt, giúp code dễ quản lý và tái sử dụng.
+
+## Export và Import
+
+### Named Export
+
+```js
+// math.js
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;
+export const multiply = (a, b) => a * b;
+
+// main.js
+import { add, subtract, multiply } from './math.js';
+
+console.log(add(5, 3)); // 8
+console.log(multiply(4, 2)); // 8
+```
+
+### Default Export
+
+```js
+// calculator.js
+const Calculator = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+};
+
+export default Calculator;
+
+// main.js
+import Calculator from './calculator.js';
+console.log(Calculator.add(10, 5)); // 15
+```
+
+### Mixed Export
+
+```js
+// utils.js
+export const PI = 3.14159;
+export const E = 2.71828;
+
+export default function calculateArea(radius) {
+  return PI * radius * radius;
+}
+
+// main.js
+import calculateArea, { PI, E } from './utils.js';
+console.log(calculateArea(5)); // 78.53975
+```
+
+## Re-exporting
+
+Bạn có thể re-export các module khác:
+
+```js
+// index.js
+export { add, subtract } from './math.js';
+export { default as Calculator } from './calculator.js';
+```
+
+## Dynamic Import
+
+Dynamic import cho phép tải module một cách không đồng bộ:
+
+```js
+// Load module khi cần
+async function loadModule() {
+  const module = await import('./math.js');
+  console.log(module.add(2, 3)); // 5
+}
+
+loadModule();
+```
+
+## Import với Alias
+
+Bạn có thể đổi tên khi import:
+
+```js
+import { add as sum, multiply as product } from './math.js';
+
+console.log(sum(5, 3)); // 8
+console.log(product(4, 2)); // 8
+```
+
+## Import tất cả
+
+```js
+import * as MathUtils from './math.js';
+
+console.log(MathUtils.add(5, 3)); // 8
+console.log(MathUtils.multiply(4, 2)); // 8
+```
+
+## Kết luận
+
+ES6 Modules giúp:
+- Tổ chức code thành các module độc lập
+- Tránh xung đột tên biến
+- Tối ưu hóa bundle size với tree-shaking
+- Quản lý dependencies dễ dàng hơn
+
+Modules là nền tảng của việc xây dựng các ứng dụng JavaScript hiện đại!
+

@@ -1,0 +1,352 @@
+---
+title: "Destructuring trong JavaScript - Phá vỡ cấu trúc dữ liệu"
+description: "Hướng dẫn chi tiết về Destructuring - cách lấy giá trị từ arrays và objects một cách dễ dàng"
+image: "/images/blog/destructuring.svg"
+date: "2024-06-06"
+author: "devbertskie"
+---
+
+Destructuring là một tính năng mạnh mẽ của ES6 cho phép bạn "phá vỡ" cấu trúc của arrays và objects để lấy giá trị một cách dễ dàng và ngắn gọn.
+
+## Array Destructuring
+
+### Cơ bản
+
+```js
+const numbers = [1, 2, 3];
+
+// Cách cũ
+const first = numbers[0];
+const second = numbers[1];
+const third = numbers[2];
+
+// Cách mới với destructuring
+const [first, second, third] = numbers;
+console.log(first); // 1
+console.log(second); // 2
+console.log(third); // 3
+```
+
+### Bỏ qua phần tử
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Bỏ qua phần tử đầu tiên
+const [, second, third] = numbers;
+console.log(second); // 2
+console.log(third); // 3
+
+// Bỏ qua nhiều phần tử
+const [first, , , fourth] = numbers;
+console.log(first); // 1
+console.log(fourth); // 4
+```
+
+### Giá trị mặc định
+
+```js
+const numbers = [1, 2];
+
+// Gán giá trị mặc định
+const [first, second, third = 3] = numbers;
+console.log(third); // 3 (vì numbers[2] là undefined)
+```
+
+### Rest operator
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Lấy phần tử đầu, phần còn lại vào mảng
+const [first, ...rest] = numbers;
+console.log(first); // 1
+console.log(rest); // [2, 3, 4, 5]
+
+// Lấy một số phần tử, phần còn lại bỏ qua
+const [a, b, ...others] = numbers;
+console.log(a); // 1
+console.log(b); // 2
+console.log(others); // [3, 4, 5]
+```
+
+### Hoán đổi biến
+
+```js
+let a = 1;
+let b = 2;
+
+// Cách cũ cần biến tạm
+let temp = a;
+a = b;
+b = temp;
+
+// Cách mới với destructuring
+[a, b] = [b, a];
+console.log(a); // 2
+console.log(b); // 1
+```
+
+## Object Destructuring
+
+### Cơ bản
+
+```js
+const person = {
+  name: "Nguyễn Văn A",
+  age: 25,
+  city: "Hà Nội"
+};
+
+// Cách cũ
+const name = person.name;
+const age = person.age;
+
+// Cách mới với destructuring
+const { name, age } = person;
+console.log(name); // "Nguyễn Văn A"
+console.log(age); // 25
+```
+
+### Đổi tên biến
+
+```js
+const person = {
+  name: "Nguyễn Văn A",
+  age: 25
+};
+
+// Đổi tên khi destructure
+const { name: fullName, age: tuoi } = person;
+console.log(fullName); // "Nguyễn Văn A"
+console.log(tuoi); // 25
+```
+
+### Giá trị mặc định
+
+```js
+const person = {
+  name: "Nguyễn Văn A"
+};
+
+// Gán giá trị mặc định
+const { name, age = 18, city = "Hà Nội" } = person;
+console.log(name); // "Nguyễn Văn A"
+console.log(age); // 18 (mặc định)
+console.log(city); // "Hà Nội" (mặc định)
+```
+
+### Nested Destructuring
+
+```js
+const user = {
+  name: "Nguyễn Văn A",
+  address: {
+    street: "123 Đường ABC",
+    city: "Hà Nội",
+    country: "Việt Nam"
+  }
+};
+
+// Destructure nested object
+const {
+  name,
+  address: { city, country }
+} = user;
+
+console.log(name); // "Nguyễn Văn A"
+console.log(city); // "Hà Nội"
+console.log(country); // "Việt Nam"
+```
+
+### Rest operator với objects
+
+```js
+const person = {
+  name: "Nguyễn Văn A",
+  age: 25,
+  city: "Hà Nội",
+  email: "nguyenvana@example.com"
+};
+
+// Lấy một số thuộc tính, phần còn lại vào object
+const { name, age, ...rest } = person;
+console.log(name); // "Nguyễn Văn A"
+console.log(age); // 25
+console.log(rest); // { city: "Hà Nội", email: "nguyenvana@example.com" }
+```
+
+## Ứng dụng thực tế
+
+### Function Parameters
+
+```js
+// Thay vì nhận nhiều tham số
+function createUser(name, age, email, city) {
+  return {
+    name,
+    age,
+    email,
+    city
+  };
+}
+
+// Sử dụng object destructuring
+function createUser({ name, age, email, city }) {
+  return { name, age, email, city };
+}
+
+createUser({
+  name: "Nguyễn Văn A",
+  age: 25,
+  email: "nguyenvana@example.com",
+  city: "Hà Nội"
+});
+```
+
+### Với giá trị mặc định
+
+```js
+function greetUser({ name, age = 18, greeting = "Xin chào" }) {
+  console.log(`${greeting}, ${name}! Bạn ${age} tuổi.`);
+}
+
+greetUser({ name: "Nguyễn Văn A" });
+// "Xin chào, Nguyễn Văn A! Bạn 18 tuổi."
+
+greetUser({ name: "Trần Thị B", age: 25, greeting: "Chào bạn" });
+// "Chào bạn, Trần Thị B! Bạn 25 tuổi."
+```
+
+### Return Values
+
+```js
+function getCoordinates() {
+  return [10.762622, 106.660172];
+}
+
+// Destructure kết quả trả về
+const [latitude, longitude] = getCoordinates();
+console.log(latitude); // 10.762622
+console.log(longitude); // 106.660172
+```
+
+### API Responses
+
+```js
+// Giả sử API trả về
+const apiResponse = {
+  status: "success",
+  data: {
+    user: {
+      id: 1,
+      name: "Nguyễn Văn A",
+      email: "nguyenvana@example.com"
+    },
+    posts: [
+      { id: 1, title: "Bài viết 1" },
+      { id: 2, title: "Bài viết 2" }
+    ]
+  }
+};
+
+// Destructure để lấy dữ liệu cần thiết
+const {
+  data: {
+    user: { name, email },
+    posts
+  }
+} = apiResponse;
+
+console.log(name); // "Nguyễn Văn A"
+console.log(email); // "nguyenvana@example.com"
+console.log(posts); // [{ id: 1, title: "Bài viết 1" }, ...]
+```
+
+### React Components
+
+```js
+// Trong React component
+function UserProfile({ user, onEdit, onDelete }) {
+  const { name, email, avatar } = user;
+  
+  return (
+    <div>
+      <img src={avatar} alt={name} />
+      <h2>{name}</h2>
+      <p>{email}</p>
+      <button onClick={onEdit}>Chỉnh sửa</button>
+      <button onClick={onDelete}>Xóa</button>
+    </div>
+  );
+}
+
+// Sử dụng
+<UserProfile
+  user={{ name: "Nguyễn Văn A", email: "a@example.com", avatar: "..." }}
+  onEdit={() => console.log("Edit")}
+  onDelete={() => console.log("Delete")}
+/>
+```
+
+## Kết hợp với Spread Operator
+
+```js
+const defaultConfig = {
+  host: "localhost",
+  port: 3000,
+  timeout: 5000
+};
+
+const userConfig = {
+  port: 8080,
+  debug: true
+};
+
+// Merge với destructuring và spread
+const { host, ...rest } = { ...defaultConfig, ...userConfig };
+console.log(host); // "localhost"
+console.log(rest); // { port: 8080, timeout: 5000, debug: true }
+```
+
+## Best Practices
+
+### 1. Sử dụng giá trị mặc định
+
+```js
+// ✅ Tốt
+function processData({ limit = 10, offset = 0, sort = "asc" }) {
+  // ...
+}
+```
+
+### 2. Đổi tên khi cần thiết
+
+```js
+// ✅ Rõ ràng hơn
+const { name: userName, age: userAge } = user;
+```
+
+### 3. Tránh destructuring quá sâu
+
+```js
+// ❌ Khó đọc
+const { a: { b: { c: { d } } } } = obj;
+
+// ✅ Tốt hơn
+const { a } = obj;
+const { b } = a;
+const { c } = b;
+const { d } = c;
+```
+
+## Kết luận
+
+Destructuring giúp:
+- Code ngắn gọn và dễ đọc hơn
+- Dễ dàng lấy giá trị từ arrays và objects
+- Hỗ trợ giá trị mặc định
+- Làm việc với function parameters linh hoạt hơn
+
+Nắm vững destructuring sẽ giúp bạn viết code JavaScript hiện đại và sạch sẽ hơn!
+

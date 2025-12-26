@@ -1,0 +1,180 @@
+---
+title: "Regular Expressions trong JavaScript - Regex từ cơ bản đến nâng cao"
+description: "Tìm hiểu cách sử dụng Regular Expressions để tìm kiếm, thay thế và validate dữ liệu"
+image: "/images/blog/regex.svg"
+date: "2024-06-13"
+author: "devbertskie"
+---
+
+Regular Expressions (Regex) là công cụ mạnh mẽ để tìm kiếm, thay thế và validate chuỗi trong JavaScript.
+
+## Tạo Regex
+
+Có hai cách tạo regex:
+
+```js
+// Cách 1: Literal notation
+const pattern1 = /hello/;
+
+// Cách 2: Constructor
+const pattern2 = new RegExp('hello');
+```
+
+## Các phương thức cơ bản
+
+### test() - Kiểm tra khớp
+
+```js
+const pattern = /hello/;
+console.log(pattern.test("hello world")); // true
+console.log(pattern.test("hi there")); // false
+```
+
+### match() - Tìm khớp
+
+```js
+const text = "Hello world, hello JavaScript";
+const pattern = /hello/gi; // g = global, i = case-insensitive
+console.log(text.match(pattern)); // ["Hello", "hello"]
+```
+
+### replace() - Thay thế
+
+```js
+const text = "Hello world";
+const newText = text.replace(/world/, "JavaScript");
+console.log(newText); // "Hello JavaScript"
+```
+
+## Flags (Cờ)
+
+- `g` - Global: Tìm tất cả khớp
+- `i` - Case-insensitive: Không phân biệt hoa thường
+- `m` - Multiline: Khớp nhiều dòng
+- `s` - Dotall: `.` khớp cả newline
+
+```js
+const text = "Hello\nWorld";
+const pattern1 = /hello/i; // Case-insensitive
+const pattern2 = /^world/m; // Multiline
+```
+
+## Character Classes
+
+```js
+// \d - Chữ số (0-9)
+/\d/ // Khớp một chữ số
+
+// \w - Word character (a-z, A-Z, 0-9, _)
+/\w/ // Khớp một ký tự từ
+
+// \s - Whitespace
+/\s/ // Khớp khoảng trắng
+
+// . - Bất kỳ ký tự nào (trừ newline)
+/./ // Khớp bất kỳ ký tự nào
+```
+
+## Quantifiers
+
+```js
+// * - 0 hoặc nhiều lần
+/ab*/ // "a", "ab", "abb", "abbb"
+
+// + - 1 hoặc nhiều lần
+/ab+/ // "ab", "abb", "abbb"
+
+// ? - 0 hoặc 1 lần
+/ab?/ // "a", "ab"
+
+// {n} - Đúng n lần
+/\d{3}/ // "123", "456"
+
+// {n,m} - Từ n đến m lần
+/\d{2,4}/ // "12", "123", "1234"
+```
+
+## Anchors
+
+```js
+// ^ - Bắt đầu chuỗi
+/^hello/ // Khớp "hello" ở đầu chuỗi
+
+// $ - Kết thúc chuỗi
+/world$/ // Khớp "world" ở cuối chuỗi
+
+// \b - Word boundary
+/\bhello\b/ // Khớp "hello" như một từ riêng biệt
+```
+
+## Groups và Capturing
+
+```js
+// Capturing group
+const pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+const match = "25/12/2024".match(pattern);
+console.log(match[1]); // "25"
+console.log(match[2]); // "12"
+console.log(match[3]); // "2024"
+
+// Named groups (ES2018)
+const pattern2 = /(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4})/;
+const match2 = "25/12/2024".match(pattern2);
+console.log(match2.groups.day); // "25"
+```
+
+## Ví dụ thực tế
+
+### Validate Email
+
+```js
+function validateEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+
+console.log(validateEmail("test@example.com")); // true
+console.log(validateEmail("invalid-email")); // false
+```
+
+### Validate Phone Number
+
+```js
+function validatePhone(phone) {
+  const pattern = /^0\d{9,10}$/;
+  return pattern.test(phone);
+}
+
+console.log(validatePhone("0912345678")); // true
+console.log(validatePhone("123")); // false
+```
+
+### Extract URLs
+
+```js
+const text = "Visit https://example.com and http://test.com";
+const urlPattern = /https?:\/\/[^\s]+/g;
+const urls = text.match(urlPattern);
+console.log(urls); // ["https://example.com", "http://test.com"]
+```
+
+### Replace với callback
+
+```js
+const text = "Hello 123 World 456";
+const newText = text.replace(/\d+/g, (match) => {
+  return parseInt(match) * 2;
+});
+console.log(newText); // "Hello 246 World 912"
+```
+
+## Kết luận
+
+Regular Expressions giúp:
+- Validate dữ liệu đầu vào
+- Tìm kiếm và thay thế text phức tạp
+- Parse và extract thông tin từ chuỗi
+- Làm việc với text một cách hiệu quả
+
+Regex là công cụ không thể thiếu trong toolkit của mọi JavaScript developer!
+

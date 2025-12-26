@@ -1,0 +1,223 @@
+---
+title: "LocalStorage và SessionStorage - Lưu trữ dữ liệu trên trình duyệt"
+description: "Tìm hiểu cách sử dụng LocalStorage và SessionStorage để lưu trữ dữ liệu phía client"
+image: "/images/blog/storage.svg"
+date: "2024-06-15"
+author: "devbertskie"
+---
+
+LocalStorage và SessionStorage là Web Storage APIs cho phép lưu trữ dữ liệu trên trình duyệt của người dùng.
+
+## LocalStorage vs SessionStorage
+
+- **LocalStorage**: Dữ liệu tồn tại vĩnh viễn cho đến khi bị xóa thủ công
+- **SessionStorage**: Dữ liệu chỉ tồn tại trong phiên làm việc (tab)
+
+## LocalStorage
+
+### setItem() - Lưu dữ liệu
+
+```js
+localStorage.setItem('username', 'Quỳnh Như');
+localStorage.setItem('age', '20');
+```
+
+### getItem() - Lấy dữ liệu
+
+```js
+const username = localStorage.getItem('username');
+console.log(username); // "Quỳnh Như"
+
+const age = localStorage.getItem('age');
+console.log(age); // "20"
+```
+
+### removeItem() - Xóa một item
+
+```js
+localStorage.removeItem('username');
+```
+
+### clear() - Xóa tất cả
+
+```js
+localStorage.clear();
+```
+
+### Lưu trữ Objects
+
+LocalStorage chỉ lưu strings, cần stringify objects:
+
+```js
+const user = {
+  name: "Quỳnh Như",
+  age: 20,
+  city: "Hồ Chí Minh"
+};
+
+// Lưu
+localStorage.setItem('user', JSON.stringify(user));
+
+// Lấy
+const savedUser = JSON.parse(localStorage.getItem('user'));
+console.log(savedUser.name); // "Quỳnh Như"
+```
+
+### Lưu trữ Arrays
+
+```js
+const skills = ["JavaScript", "Networking", "Cloud"];
+
+// Lưu
+localStorage.setItem('skills', JSON.stringify(skills));
+
+// Lấy
+const savedSkills = JSON.parse(localStorage.getItem('skills'));
+console.log(savedSkills); // ["JavaScript", "Networking", "Cloud"]
+```
+
+## SessionStorage
+
+SessionStorage có API tương tự LocalStorage:
+
+```js
+// Lưu
+sessionStorage.setItem('sessionId', 'abc123');
+
+// Lấy
+const sessionId = sessionStorage.getItem('sessionId');
+
+// Xóa
+sessionStorage.removeItem('sessionId');
+
+// Xóa tất cả
+sessionStorage.clear();
+```
+
+## Kiểm tra hỗ trợ
+
+```js
+function isStorageAvailable(type) {
+  try {
+    const storage = window[type];
+    const x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+if (isStorageAvailable('localStorage')) {
+  // Sử dụng localStorage
+} else {
+  // Fallback
+}
+```
+
+## Ví dụ thực tế
+
+### Lưu preferences người dùng
+
+```js
+// Lưu theme
+function saveTheme(theme) {
+  localStorage.setItem('theme', theme);
+}
+
+// Lấy theme
+function getTheme() {
+  return localStorage.getItem('theme') || 'light';
+}
+
+// Sử dụng
+saveTheme('dark');
+const currentTheme = getTheme();
+```
+
+### Shopping Cart
+
+```js
+// Thêm vào giỏ hàng
+function addToCart(item) {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  cart.push(item);
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Lấy giỏ hàng
+function getCart() {
+  return JSON.parse(localStorage.getItem('cart') || '[]');
+}
+
+// Xóa giỏ hàng
+function clearCart() {
+  localStorage.removeItem('cart');
+}
+```
+
+### Form Auto-save
+
+```js
+// Lưu form data
+function autoSaveForm(formData) {
+  sessionStorage.setItem('formData', JSON.stringify(formData));
+}
+
+// Khôi phục form data
+function restoreForm() {
+  const savedData = sessionStorage.getItem('formData');
+  if (savedData) {
+    return JSON.parse(savedData);
+  }
+  return null;
+}
+```
+
+## Event Listeners
+
+Lắng nghe thay đổi trong storage:
+
+```js
+window.addEventListener('storage', (e) => {
+  console.log('Key changed:', e.key);
+  console.log('Old value:', e.oldValue);
+  console.log('New value:', e.newValue);
+});
+```
+
+## Best Practices
+
+1. **Luôn xử lý lỗi:**
+```js
+try {
+  localStorage.setItem('key', 'value');
+} catch (e) {
+  console.error('Lỗi lưu trữ:', e);
+}
+```
+
+2. **Giới hạn kích thước:**
+- LocalStorage: ~5-10MB
+- SessionStorage: ~5-10MB
+
+3. **Không lưu dữ liệu nhạy cảm:**
+```js
+// ❌ SAI
+localStorage.setItem('password', 'secret123');
+
+// ✅ ĐÚNG - Chỉ lưu dữ liệu không nhạy cảm
+localStorage.setItem('theme', 'dark');
+```
+
+## Kết luận
+
+LocalStorage và SessionStorage giúp:
+- Lưu preferences người dùng
+- Cache dữ liệu tạm thời
+- Tạo offline experience
+- Cải thiện performance
+
+Web Storage là công cụ quan trọng để tạo trải nghiệm người dùng tốt hơn!
+

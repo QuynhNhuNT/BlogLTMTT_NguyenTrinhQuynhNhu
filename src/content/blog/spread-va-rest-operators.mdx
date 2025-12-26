@@ -1,0 +1,359 @@
+---
+title: "Spread và Rest Operators trong JavaScript"
+description: "Hướng dẫn chi tiết về Spread và Rest operators - hai tính năng mạnh mẽ của ES6"
+image: "/images/blog/spread-rest.svg"
+date: "2024-06-07"
+author: "devbertskie"
+---
+
+Spread (`...`) và Rest operators là hai tính năng mạnh mẽ của ES6 giúp làm việc với arrays và objects dễ dàng hơn. Mặc dù cùng sử dụng cú pháp `...`, nhưng chúng có mục đích khác nhau.
+
+## Spread Operator
+
+Spread operator "trải rộng" các phần tử của array hoặc properties của object.
+
+### Spread với Arrays
+
+#### Copy mảng
+
+```js
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1]; // Tạo bản sao mới
+
+arr2.push(4);
+console.log(arr1); // [1, 2, 3] - không thay đổi
+console.log(arr2); // [1, 2, 3, 4]
+```
+
+#### Kết hợp mảng
+
+```js
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const combined = [...arr1, ...arr2];
+console.log(combined); // [1, 2, 3, 4, 5, 6]
+
+// Thêm phần tử vào giữa
+const withExtra = [...arr1, 99, ...arr2];
+console.log(withExtra); // [1, 2, 3, 99, 4, 5, 6]
+```
+
+#### Thêm phần tử vào mảng
+
+```js
+const numbers = [2, 3, 4];
+const newNumbers = [1, ...numbers, 5];
+console.log(newNumbers); // [1, 2, 3, 4, 5]
+```
+
+#### Truyền arguments vào function
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Thay vì Math.max(1, 2, 3, 4, 5)
+const max = Math.max(...numbers);
+console.log(max); // 5
+
+// Thay vì numbers.push(6, 7, 8)
+const newNumbers = [...numbers, 6, 7, 8];
+```
+
+### Spread với Objects
+
+#### Copy object
+
+```js
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1 }; // Tạo bản sao mới
+
+obj2.c = 3;
+console.log(obj1); // { a: 1, b: 2 } - không thay đổi
+console.log(obj2); // { a: 1, b: 2, c: 3 }
+```
+
+#### Merge objects
+
+```js
+const obj1 = { a: 1, b: 2 };
+const obj2 = { c: 3, d: 4 };
+const merged = { ...obj1, ...obj2 };
+console.log(merged); // { a: 1, b: 2, c: 3, d: 4 }
+
+// Object sau sẽ ghi đè properties của object trước
+const obj3 = { a: 10, b: 20 };
+const merged2 = { ...obj1, ...obj3 };
+console.log(merged2); // { a: 10, b: 20 }
+```
+
+#### Thêm/ghi đè properties
+
+```js
+const user = { name: "Nguyễn Văn A", age: 25 };
+
+// Thêm property mới
+const userWithEmail = { ...user, email: "a@example.com" };
+console.log(userWithEmail);
+// { name: "Nguyễn Văn A", age: 25, email: "a@example.com" }
+
+// Ghi đè property
+const updatedUser = { ...user, age: 26 };
+console.log(updatedUser);
+// { name: "Nguyễn Văn A", age: 26 }
+```
+
+## Rest Operator
+
+Rest operator "gom" các phần tử còn lại vào một mảng hoặc object.
+
+### Rest với Arrays
+
+#### Trong destructuring
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Lấy phần tử đầu, phần còn lại vào mảng
+const [first, ...rest] = numbers;
+console.log(first); // 1
+console.log(rest); // [2, 3, 4, 5]
+
+// Lấy một số phần tử đầu
+const [a, b, ...others] = numbers;
+console.log(a); // 1
+console.log(b); // 2
+console.log(others); // [3, 4, 5]
+```
+
+#### Trong function parameters
+
+```js
+// Rest parameter - nhận nhiều arguments
+function sum(...numbers) {
+  return numbers.reduce((total, num) => total + num, 0);
+}
+
+console.log(sum(1, 2, 3)); // 6
+console.log(sum(1, 2, 3, 4, 5)); // 15
+
+// Kết hợp với parameters thông thường
+function greet(greeting, ...names) {
+  console.log(`${greeting}, ${names.join(", ")}!`);
+}
+
+greet("Xin chào", "Nguyễn Văn A", "Trần Thị B", "Lê Văn C");
+// "Xin chào, Nguyễn Văn A, Trần Thị B, Lê Văn C!"
+```
+
+### Rest với Objects
+
+#### Trong destructuring
+
+```js
+const user = {
+  name: "Nguyễn Văn A",
+  age: 25,
+  email: "a@example.com",
+  city: "Hà Nội"
+};
+
+// Lấy một số properties, phần còn lại vào object
+const { name, age, ...rest } = user;
+console.log(name); // "Nguyễn Văn A"
+console.log(age); // 25
+console.log(rest); // { email: "a@example.com", city: "Hà Nội" }
+```
+
+## Ứng dụng thực tế
+
+### Clone mảng/object (shallow copy)
+
+```js
+// Arrays
+const original = [1, 2, 3];
+const copy = [...original];
+
+// Objects
+const originalObj = { a: 1, b: 2 };
+const copyObj = { ...originalObj };
+```
+
+### Tạo mảng/object mới với thay đổi
+
+```js
+// Immutable update pattern
+const users = [
+  { id: 1, name: "Nguyễn Văn A" },
+  { id: 2, name: "Trần Thị B" }
+];
+
+// Thêm user mới
+const newUsers = [...users, { id: 3, name: "Lê Văn C" }];
+
+// Cập nhật user
+const updatedUsers = users.map(user =>
+  user.id === 1
+    ? { ...user, name: "Nguyễn Văn A Updated" }
+    : user
+);
+```
+
+### Function với nhiều arguments
+
+```js
+// Tạo function linh hoạt
+function createUser(id, ...userData) {
+  return {
+    id,
+    ...userData
+  };
+}
+
+const user1 = createUser(1, { name: "Nguyễn Văn A", age: 25 });
+const user2 = createUser(2, { name: "Trần Thị B", age: 30, city: "Hà Nội" });
+```
+
+### Merge configuration objects
+
+```js
+const defaultConfig = {
+  host: "localhost",
+  port: 3000,
+  timeout: 5000
+};
+
+const userConfig = {
+  port: 8080,
+  debug: true
+};
+
+// User config ghi đè default config
+const finalConfig = {
+  ...defaultConfig,
+  ...userConfig
+};
+// { host: "localhost", port: 8080, timeout: 5000, debug: true }
+```
+
+### React - Props spreading
+
+```js
+// Component nhận nhiều props
+function Button({ children, ...props }) {
+  return (
+    <button {...props}>
+      {children}
+    </button>
+  );
+}
+
+// Sử dụng
+<Button
+  onClick={handleClick}
+  className="btn-primary"
+  disabled={false}
+>
+  Click me
+</Button>
+```
+
+### Xóa properties khỏi object
+
+```js
+const user = {
+  name: "Nguyễn Văn A",
+  age: 25,
+  password: "secret123"
+};
+
+// Xóa password (không mutate object gốc)
+const { password, ...userWithoutPassword } = user;
+console.log(userWithoutPassword);
+// { name: "Nguyễn Văn A", age: 25 }
+```
+
+## So sánh Spread vs Rest
+
+```js
+// SPREAD - "trải rộng"
+const arr = [1, 2, 3];
+console.log(...arr); // 1 2 3 (trải rộng các phần tử)
+
+// REST - "gom lại"
+function collect(...args) {
+  return args; // Gom các arguments thành mảng
+}
+collect(1, 2, 3); // [1, 2, 3]
+```
+
+## Lưu ý quan trọng
+
+### Shallow Copy
+
+Spread chỉ tạo shallow copy:
+
+```js
+const nested = {
+  a: 1,
+  b: {
+    c: 2
+  }
+};
+
+const copy = { ...nested };
+copy.b.c = 3;
+
+console.log(nested.b.c); // 3 - đã thay đổi!
+// Vì nested.b và copy.b cùng trỏ đến một object
+
+// Deep copy cần cách khác
+const deepCopy = JSON.parse(JSON.stringify(nested));
+```
+
+### Thứ tự trong object spread
+
+```js
+const obj1 = { a: 1, b: 2 };
+const obj2 = { b: 3, c: 4 };
+
+// Object sau ghi đè properties của object trước
+const merged = { ...obj1, ...obj2 };
+console.log(merged); // { a: 1, b: 3, c: 4 }
+```
+
+## Best Practices
+
+### 1. Sử dụng spread cho immutable updates
+
+```js
+// ✅ Tốt - không mutate
+const newState = { ...oldState, newProperty: value };
+
+// ❌ Tránh - mutate trực tiếp
+oldState.newProperty = value;
+```
+
+### 2. Rest parameters thay vì arguments
+
+```js
+// ✅ Tốt - rest parameter
+function sum(...numbers) {
+  return numbers.reduce((a, b) => a + b, 0);
+}
+
+// ❌ Tránh - arguments object
+function sum() {
+  return Array.from(arguments).reduce((a, b) => a + b, 0);
+}
+```
+
+## Kết luận
+
+- **Spread** (`...`): Trải rộng arrays/objects
+- **Rest** (`...`): Gom các phần tử còn lại
+- Cùng cú pháp nhưng mục đích khác nhau
+- Hữu ích cho immutable programming
+- Làm việc với functions linh hoạt hơn
+
+Nắm vững Spread và Rest operators sẽ giúp bạn viết code JavaScript hiện đại và hiệu quả hơn!
+

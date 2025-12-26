@@ -1,0 +1,14 @@
+<svg width="804" height="452" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="regexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="804" height="452" fill="url(#regexGrad)"/>
+  <text x="402" y="200" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">Regular Expressions</text>
+  <text x="402" y="250" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">Regex</text>
+  <circle cx="150" cy="100" r="30" fill="rgba(255,255,255,0.2)"/>
+  <circle cx="654" cy="352" r="40" fill="rgba(255,255,255,0.15)"/>
+</svg>
+

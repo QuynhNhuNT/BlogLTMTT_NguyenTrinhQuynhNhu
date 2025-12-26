@@ -1,0 +1,329 @@
+---
+title: "Event Loop trong JavaScript - Cơ chế bất đồng bộ"
+description: "Tìm hiểu về Event Loop - cách JavaScript xử lý code bất đồng bộ"
+image: "/images/blog/event-loop.svg"
+date: "2024-06-08"
+author: "devbertskie"
+---
+
+Event Loop là cơ chế cho phép JavaScript xử lý code bất đồng bộ mặc dù JavaScript là ngôn ngữ single-threaded. Hiểu rõ Event Loop sẽ giúp bạn viết code bất đồng bộ hiệu quả hơn.
+
+## JavaScript là Single-threaded
+
+JavaScript chỉ có một thread chính (main thread) để thực thi code. Điều này có nghĩa là tại một thời điểm chỉ có một đoạn code được chạy.
+
+```js
+console.log("1");
+console.log("2");
+console.log("3");
+// Luôn in ra: 1, 2, 3 (theo thứ tự)
+```
+
+## Call Stack
+
+Call Stack là nơi lưu trữ các function calls đang được thực thi:
+
+```js
+function first() {
+  console.log("First");
+  second();
+}
+
+function second() {
+  console.log("Second");
+  third();
+}
+
+function third() {
+  console.log("Third");
+}
+
+first();
+// Call Stack:
+// 1. first() được thêm vào
+// 2. second() được thêm vào (bên trong first)
+// 3. third() được thêm vào (bên trong second)
+// 4. third() hoàn thành, được lấy ra
+// 5. second() hoàn thành, được lấy ra
+// 6. first() hoàn thành, được lấy ra
+```
+
+## Web APIs và Callback Queue
+
+Khi gặp các thao tác bất đồng bộ (setTimeout, fetch, DOM events), JavaScript giao chúng cho Web APIs xử lý. Khi hoàn thành, callback được đưa vào Callback Queue.
+
+```js
+console.log("1");
+
+setTimeout(() => {
+  console.log("2");
+}, 0);
+
+console.log("3");
+
+// Output: 1, 3, 2
+// Giải thích:
+// 1. "1" được in ngay
+// 2. setTimeout được giao cho Web API
+// 3. "3" được in ngay
+// 4. Callback của setTimeout được đưa vào Queue
+// 5. Event Loop đưa callback vào Call Stack
+// 6. "2" được in
+```
+
+## Event Loop hoạt động như thế nào?
+
+Event Loop liên tục kiểm tra:
+1. Call Stack có trống không?
+2. Callback Queue có callback nào không?
+
+Nếu Call Stack trống và có callback trong Queue, Event Loop sẽ đưa callback vào Call Stack để thực thi.
+
+```js
+console.log("Start");
+
+setTimeout(() => console.log("Timeout"), 0);
+
+Promise.resolve().then(() => console.log("Promise"));
+
+console.log("End");
+
+// Output: Start, End, Promise, Timeout
+```
+
+## Microtasks vs Macrotasks
+
+### Microtasks (Priority cao hơn)
+- Promise callbacks (`.then()`, `.catch()`)
+- `queueMicrotask()`
+- `MutationObserver`
+
+### Macrotasks (Priority thấp hơn)
+- `setTimeout`
+- `setInterval`
+- DOM events
+- `setImmediate` (Node.js)
+
+```js
+console.log("1");
+
+setTimeout(() => console.log("2"), 0);
+
+Promise.resolve().then(() => console.log("3"));
+
+queueMicrotask(() => console.log("4"));
+
+console.log("5");
+
+// Output: 1, 5, 3, 4, 2
+// Giải thích:
+// 1. "1" - synchronous
+// 2. setTimeout -> Macrotask queue
+// 3. Promise -> Microtask queue
+// 4. queueMicrotask -> Microtask queue
+// 5. "5" - synchronous
+// 6. Call Stack trống, xử lý Microtasks: "3", "4"
+// 7. Xử lý Macrotasks: "2"
+```
+
+## Ví dụ chi tiết
+
+### Ví dụ 1: setTimeout
+
+```js
+console.log("A");
+
+setTimeout(() => {
+  console.log("B");
+}, 1000);
+
+console.log("C");
+
+// Output: A, C, (sau 1 giây) B
+```
+
+### Ví dụ 2: Nested setTimeout
+
+```js
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout 1");
+  
+  setTimeout(() => {
+    console.log("Timeout 2");
+  }, 0);
+}, 0);
+
+console.log("End");
+
+// Output: Start, End, Timeout 1, Timeout 2
+```
+
+### Ví dụ 3: Promise và setTimeout
+
+```js
+console.log("1");
+
+setTimeout(() => console.log("2"), 0);
+
+Promise.resolve()
+  .then(() => {
+    console.log("3");
+    return Promise.resolve();
+  })
+  .then(() => console.log("4"));
+
+console.log("5");
+
+// Output: 1, 5, 3, 4, 2
+// Microtasks (Promise) được ưu tiên hơn Macrotasks (setTimeout)
+```
+
+### Ví dụ 4: Async/Await
+
+```js
+async function async1() {
+  console.log("1");
+  await async2();
+  console.log("2");
+}
+
+async function async2() {
+  console.log("3");
+}
+
+console.log("4");
+
+async1();
+
+console.log("5");
+
+// Output: 4, 1, 3, 5, 2
+// Giải thích:
+// - await async2() tương đương Promise.resolve(async2()).then(...)
+// - Code sau await được đưa vào microtask queue
+```
+
+## Blocking Event Loop
+
+Code đồng bộ chạy lâu sẽ block Event Loop:
+
+```js
+// ❌ Blocking code
+function blockingFunction() {
+  const start = Date.now();
+  while (Date.now() - start < 5000) {
+    // Chạy trong 5 giây
+  }
+  console.log("Done");
+}
+
+console.log("Start");
+blockingFunction();
+console.log("End");
+
+// Output: Start, (sau 5 giây) Done, End
+// Trong 5 giây, browser bị đơ, không thể xử lý events khác
+```
+
+### Giải pháp: Chia nhỏ công việc
+
+```js
+// ✅ Non-blocking
+function processChunk(array, index = 0) {
+  const chunkSize = 100;
+  const end = Math.min(index + chunkSize, array.length);
+  
+  // Xử lý một chunk
+  for (let i = index; i < end; i++) {
+    // Xử lý array[i]
+  }
+  
+  if (end < array.length) {
+    // Chờ Event Loop rảnh rồi xử lý chunk tiếp theo
+    setTimeout(() => processChunk(array, end), 0);
+  }
+}
+```
+
+## Best Practices
+
+### 1. Tránh blocking code
+
+```js
+// ❌ Tránh
+for (let i = 0; i < 10000000; i++) {
+  // Xử lý nặng
+}
+
+// ✅ Tốt hơn
+async function processLargeData(data) {
+  for (const chunk of chunkArray(data, 1000)) {
+    await processChunk(chunk);
+    // Cho phép Event Loop xử lý các tasks khác
+  }
+}
+```
+
+### 2. Sử dụng Web Workers cho công việc nặng
+
+```js
+// main.js
+const worker = new Worker('worker.js');
+worker.postMessage({ data: largeData });
+worker.onmessage = (e) => {
+  console.log('Kết quả:', e.data);
+};
+
+// worker.js
+self.onmessage = (e) => {
+  const result = processHeavyData(e.data.data);
+  self.postMessage(result);
+};
+```
+
+### 3. Hiểu thứ tự ưu tiên
+
+```js
+// Microtasks luôn được xử lý trước Macrotasks
+Promise.resolve().then(() => console.log("Microtask"));
+setTimeout(() => console.log("Macrotask"), 0);
+// Output: Microtask, Macrotask
+```
+
+## Visualizing Event Loop
+
+```
+┌─────────────────────────┐
+│   Call Stack            │
+│                         │
+│  [function calls]       │
+└─────────────────────────┘
+           │
+           │
+           ▼
+┌─────────────────────────┐
+│   Event Loop            │
+│   (kiểm tra liên tục)   │
+└─────────────────────────┘
+           │
+           │
+           ▼
+┌─────────────────────────┐
+│   Callback Queue        │
+│   [callbacks chờ xử lý] │
+└─────────────────────────┘
+```
+
+## Kết luận
+
+- JavaScript là single-threaded nhưng có thể xử lý bất đồng bộ nhờ Event Loop
+- Call Stack xử lý code đồng bộ
+- Web APIs xử lý các thao tác bất đồng bộ
+- Callback Queue chứa callbacks chờ xử lý
+- Microtasks có priority cao hơn Macrotasks
+- Tránh blocking code để giữ UI responsive
+
+Hiểu rõ Event Loop sẽ giúp bạn debug và tối ưu code bất đồng bộ hiệu quả hơn!
+

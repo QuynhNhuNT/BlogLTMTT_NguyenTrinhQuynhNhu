@@ -1,0 +1,251 @@
+---
+title: "Set và Map trong JavaScript - Cấu trúc dữ liệu mạnh mẽ"
+description: "Tìm hiểu về Set và Map, các cấu trúc dữ liệu mới trong ES6 để quản lý collections hiệu quả"
+image: "/images/blog/set-map.svg"
+date: "2024-06-18"
+author: "devbertskie"
+---
+
+Set và Map là các cấu trúc dữ liệu mạnh mẽ được giới thiệu trong ES6, giúp quản lý collections hiệu quả hơn.
+
+## Set - Tập hợp duy nhất
+
+Set là collection chỉ chứa các giá trị duy nhất (không trùng lặp).
+
+### Tạo Set
+
+```js
+// Tạo Set rỗng
+const mySet = new Set();
+
+// Tạo Set từ array
+const numbers = new Set([1, 2, 3, 3, 4, 4]);
+console.log(numbers); // Set {1, 2, 3, 4} - tự động loại bỏ trùng lặp
+```
+
+### Các phương thức cơ bản
+
+```js
+const mySet = new Set();
+
+// add() - Thêm phần tử
+mySet.add(1);
+mySet.add(2);
+mySet.add(2); // Không thêm vì đã tồn tại
+console.log(mySet); // Set {1, 2}
+
+// has() - Kiểm tra tồn tại
+console.log(mySet.has(1)); // true
+console.log(mySet.has(3)); // false
+
+// delete() - Xóa phần tử
+mySet.delete(1);
+console.log(mySet); // Set {2}
+
+// size - Kích thước
+console.log(mySet.size); // 1
+
+// clear() - Xóa tất cả
+mySet.clear();
+```
+
+### Loại bỏ trùng lặp từ Array
+
+```js
+const arr = [1, 2, 2, 3, 3, 4];
+const unique = [...new Set(arr)];
+console.log(unique); // [1, 2, 3, 4]
+```
+
+### Iteration
+
+```js
+const mySet = new Set([1, 2, 3]);
+
+// forEach
+mySet.forEach(value => {
+  console.log(value);
+});
+
+// for...of
+for (const value of mySet) {
+  console.log(value);
+}
+
+// Convert to Array
+const arr = [...mySet];
+```
+
+## Map - Key-Value Pairs
+
+Map là collection lưu trữ key-value pairs, tương tự object nhưng có nhiều tính năng hơn.
+
+### Tạo Map
+
+```js
+// Tạo Map rỗng
+const myMap = new Map();
+
+// Tạo Map từ array of arrays
+const myMap = new Map([
+  ['name', 'Quỳnh Như'],
+  ['age', 20],
+  ['city', 'Hồ Chí Minh']
+]);
+```
+
+### Các phương thức cơ bản
+
+```js
+const myMap = new Map();
+
+// set() - Thêm/update
+myMap.set('name', 'Quỳnh Như');
+myMap.set('age', 20);
+myMap.set('age', 21); // Update
+
+// get() - Lấy giá trị
+console.log(myMap.get('name')); // "Quỳnh Như"
+
+// has() - Kiểm tra key
+console.log(myMap.has('name')); // true
+
+// delete() - Xóa
+myMap.delete('age');
+
+// size - Kích thước
+console.log(myMap.size); // 1
+
+// clear() - Xóa tất cả
+myMap.clear();
+```
+
+### Khác biệt với Object
+
+```js
+// Map có thể dùng bất kỳ type nào làm key
+const map = new Map();
+map.set(1, 'Number key');
+map.set(true, 'Boolean key');
+map.set({}, 'Object key');
+
+// Object chỉ dùng string/symbol
+const obj = {};
+obj[1] = 'Number key'; // Tự động convert thành string "1"
+obj[true] = 'Boolean key'; // Tự động convert thành string "true"
+```
+
+### Iteration
+
+```js
+const myMap = new Map([
+  ['name', 'Quỳnh Như'],
+  ['age', 20]
+]);
+
+// forEach
+myMap.forEach((value, key) => {
+  console.log(`${key}: ${value}`);
+});
+
+// for...of
+for (const [key, value] of myMap) {
+  console.log(`${key}: ${value}`);
+}
+
+// keys()
+for (const key of myMap.keys()) {
+  console.log(key);
+}
+
+// values()
+for (const value of myMap.values()) {
+  console.log(value);
+}
+
+// entries()
+for (const [key, value] of myMap.entries()) {
+  console.log(`${key}: ${value}`);
+}
+```
+
+## Ví dụ thực tế
+
+### Set - Tracking unique values
+
+```js
+// Tracking unique visitors
+const visitors = new Set();
+
+function addVisitor(userId) {
+  visitors.add(userId);
+}
+
+function getUniqueVisitors() {
+  return visitors.size;
+}
+
+addVisitor('user1');
+addVisitor('user2');
+addVisitor('user1'); // Duplicate
+console.log(getUniqueVisitors()); // 2
+```
+
+### Map - Caching
+
+```js
+// Simple cache
+const cache = new Map();
+
+function getCachedData(key) {
+  if (cache.has(key)) {
+    return cache.get(key);
+  }
+  
+  const data = fetchData(key); // Expensive operation
+  cache.set(key, data);
+  return data;
+}
+```
+
+### Map - Counting occurrences
+
+```js
+// Đếm số lần xuất hiện
+const words = ['hello', 'world', 'hello', 'javascript'];
+const wordCount = new Map();
+
+words.forEach(word => {
+  wordCount.set(word, (wordCount.get(word) || 0) + 1);
+});
+
+console.log(wordCount); // Map { 'hello' => 2, 'world' => 1, 'javascript' => 1 }
+```
+
+## WeakSet và WeakMap
+
+WeakSet và WeakMap tương tự Set và Map nhưng:
+- Chỉ chứa objects (không phải primitives)
+- Không có size property
+- Không thể iterate
+- Tự động garbage collect khi object không còn reference
+
+```js
+const weakSet = new WeakSet();
+const obj = {};
+weakSet.add(obj);
+
+const weakMap = new WeakMap();
+weakMap.set(obj, 'value');
+```
+
+## Kết luận
+
+Set và Map giúp:
+- Quản lý collections hiệu quả
+- Loại bỏ trùng lặp dễ dàng
+- Lưu trữ key-value pairs linh hoạt
+- Performance tốt hơn object trong một số trường hợp
+
+Set và Map là công cụ mạnh mẽ cho việc quản lý dữ liệu trong JavaScript!
+

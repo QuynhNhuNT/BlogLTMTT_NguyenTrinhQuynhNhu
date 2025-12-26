@@ -1,0 +1,230 @@
+---
+title: "Array Methods: map, filter, reduce trong JavaScript"
+description: "Hướng dẫn chi tiết về các phương thức mảng quan trọng nhất: map, filter và reduce"
+image: "/images/blog/array-methods.svg"
+date: "2024-06-03"
+author: "devbertskie"
+---
+
+Các phương thức `map`, `filter`, và `reduce` là những công cụ mạnh mẽ nhất để làm việc với mảng trong JavaScript. Hãy tìm hiểu cách sử dụng chúng hiệu quả.
+
+## Array.map()
+
+`map()` tạo ra một mảng mới bằng cách thực hiện một function trên mỗi phần tử của mảng gốc.
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Nhân mỗi số với 2
+const doubled = numbers.map(num => num * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+// Chuyển đổi mảng số thành mảng chuỗi
+const strings = numbers.map(num => num.toString());
+console.log(strings); // ['1', '2', '3', '4', '5']
+```
+
+### Ví dụ thực tế
+
+```js
+const users = [
+  { id: 1, name: 'Nguyễn Văn A', age: 25 },
+  { id: 2, name: 'Trần Thị B', age: 30 },
+  { id: 3, name: 'Lê Văn C', age: 28 }
+];
+
+// Lấy danh sách tên
+const names = users.map(user => user.name);
+console.log(names); // ['Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C']
+
+// Tạo mảng mới với thông tin đã thay đổi
+const usersWithEmail = users.map(user => ({
+  ...user,
+  email: `${user.name.toLowerCase().replace(/\s+/g, '.')}@example.com`
+}));
+```
+
+## Array.filter()
+
+`filter()` tạo ra một mảng mới chứa các phần tử thỏa mãn điều kiện.
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Lọc số chẵn
+const evens = numbers.filter(num => num % 2 === 0);
+console.log(evens); // [2, 4, 6, 8, 10]
+
+// Lọc số lớn hơn 5
+const greaterThan5 = numbers.filter(num => num > 5);
+console.log(greaterThan5); // [6, 7, 8, 9, 10]
+```
+
+### Ví dụ thực tế
+
+```js
+const products = [
+  { name: 'Laptop', price: 15000000, category: 'Electronics' },
+  { name: 'Áo sơ mi', price: 500000, category: 'Clothing' },
+  { name: 'Điện thoại', price: 8000000, category: 'Electronics' },
+  { name: 'Quần jean', price: 800000, category: 'Clothing' }
+];
+
+// Lọc sản phẩm điện tử
+const electronics = products.filter(product => 
+  product.category === 'Electronics'
+);
+
+// Lọc sản phẩm có giá dưới 1 triệu
+const affordable = products.filter(product => 
+  product.price < 1000000
+);
+```
+
+## Array.reduce()
+
+`reduce()` biến đổi mảng thành một giá trị duy nhất bằng cách thực hiện function trên mỗi phần tử.
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Tính tổng
+const sum = numbers.reduce((accumulator, current) => {
+  return accumulator + current;
+}, 0);
+console.log(sum); // 15
+
+// Cú pháp ngắn gọn
+const sum2 = numbers.reduce((acc, curr) => acc + curr, 0);
+```
+
+### Ví dụ thực tế
+
+```js
+// Đếm số lượng sản phẩm theo danh mục
+const products = [
+  { name: 'Laptop', category: 'Electronics' },
+  { name: 'Áo sơ mi', category: 'Clothing' },
+  { name: 'Điện thoại', category: 'Electronics' },
+  { name: 'Quần jean', category: 'Clothing' },
+  { name: 'Tai nghe', category: 'Electronics' }
+];
+
+const categoryCount = products.reduce((acc, product) => {
+  acc[product.category] = (acc[product.category] || 0) + 1;
+  return acc;
+}, {});
+
+console.log(categoryCount);
+// { Electronics: 3, Clothing: 2 }
+
+// Tính tổng giá trị đơn hàng
+const orderItems = [
+  { name: 'Laptop', price: 15000000, quantity: 1 },
+  { name: 'Chuột', price: 500000, quantity: 2 },
+  { name: 'Bàn phím', price: 2000000, quantity: 1 }
+];
+
+const total = orderItems.reduce((sum, item) => {
+  return sum + (item.price * item.quantity);
+}, 0);
+
+console.log(total); // 18000000
+```
+
+## Kết hợp các phương thức
+
+Bạn có thể kết hợp `map`, `filter`, và `reduce` để giải quyết các bài toán phức tạp:
+
+```js
+const users = [
+  { name: 'Nguyễn Văn A', age: 25, salary: 10000000 },
+  { name: 'Trần Thị B', age: 30, salary: 15000000 },
+  { name: 'Lê Văn C', age: 28, salary: 12000000 },
+  { name: 'Phạm Thị D', age: 35, salary: 20000000 },
+  { name: 'Hoàng Văn E', age: 22, salary: 8000000 }
+];
+
+// Tìm trung bình lương của người trên 25 tuổi
+const averageSalary = users
+  .filter(user => user.age > 25) // Lọc người trên 25 tuổi
+  .map(user => user.salary) // Lấy mảng lương
+  .reduce((sum, salary, index, array) => {
+    sum += salary;
+    // Tính trung bình ở lần lặp cuối
+    if (index === array.length - 1) {
+      return sum / array.length;
+    }
+    return sum;
+  }, 0);
+
+console.log(averageSalary); // 15666666.67
+```
+
+## So sánh với vòng lặp for
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Sử dụng for loop
+let doubled = [];
+for (let i = 0; i < numbers.length; i++) {
+  doubled.push(numbers[i] * 2);
+}
+
+// Sử dụng map (ngắn gọn và rõ ràng hơn)
+const doubled2 = numbers.map(num => num * 2);
+```
+
+## Best Practices
+
+### 1. Luôn trả về giá trị trong map
+
+```js
+// ❌ SAI
+const bad = numbers.map(num => {
+  if (num > 3) {
+    return num * 2;
+  }
+  // Không trả về gì khi num <= 3
+});
+
+// ✅ ĐÚNG
+const good = numbers.map(num => {
+  return num > 3 ? num * 2 : num;
+});
+```
+
+### 2. Không thay đổi mảng gốc
+
+```js
+// ❌ SAI - Thay đổi mảng gốc
+const bad = numbers.map(num => {
+  numbers.push(num * 2); // Không nên làm thế này
+  return num;
+});
+
+// ✅ ĐÚNG - Tạo mảng mới
+const good = numbers.map(num => num * 2);
+```
+
+### 3. Sử dụng reduce khi cần tích lũy giá trị
+
+```js
+// Tính tổng với reduce
+const sum = numbers.reduce((acc, num) => acc + num, 0);
+
+// Tìm giá trị lớn nhất
+const max = numbers.reduce((acc, num) => 
+  num > acc ? num : acc, numbers[0]
+);
+```
+
+## Kết luận
+
+- **map()**: Biến đổi từng phần tử thành phần tử mới
+- **filter()**: Lọc các phần tử thỏa mãn điều kiện
+- **reduce()**: Tích lũy thành một giá trị duy nhất
+
+Nắm vững ba phương thức này sẽ giúp bạn viết code JavaScript sạch, dễ đọc và hiệu quả hơn!
+

@@ -1,0 +1,14 @@
+<svg width="804" height="452" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="spreadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E3A8A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="804" height="452" fill="url(#spreadGrad)"/>
+  <text x="402" y="200" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">Spread &amp; Rest</text>
+  <text x="402" y="250" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">ES6 Operators</text>
+  <ellipse cx="150" cy="100" rx="30" ry="20" fill="rgba(255,255,255,0.2)"/>
+  <ellipse cx="654" cy="352" rx="40" ry="25" fill="rgba(255,255,255,0.15)"/>
+</svg>
+

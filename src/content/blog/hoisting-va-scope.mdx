@@ -1,0 +1,272 @@
+---
+title: "Hoisting và Scope trong JavaScript"
+description: "Tìm hiểu về Hoisting và Scope - hai khái niệm quan trọng trong JavaScript"
+image: "/images/blog/hoisting-scope.svg"
+date: "2024-06-04"
+author: "devbertskie"
+---
+
+Hoisting và Scope là hai khái niệm cơ bản nhưng quan trọng trong JavaScript. Hiểu rõ chúng sẽ giúp bạn tránh được nhiều lỗi phổ biến.
+
+## Scope là gì?
+
+Scope xác định phạm vi truy cập của biến, function, và object trong code.
+
+### Global Scope
+
+Biến được khai báo bên ngoài function thuộc global scope:
+
+```js
+const globalVar = "Tôi là biến global";
+
+function myFunction() {
+  console.log(globalVar); // Có thể truy cập
+}
+
+console.log(globalVar); // Có thể truy cập
+```
+
+### Function Scope
+
+Biến được khai báo trong function chỉ có thể truy cập trong function đó:
+
+```js
+function myFunction() {
+  const functionVar = "Tôi là biến function";
+  console.log(functionVar); // Có thể truy cập
+}
+
+console.log(functionVar); // ❌ Lỗi: functionVar is not defined
+```
+
+### Block Scope (với let và const)
+
+Với `let` và `const`, biến chỉ tồn tại trong block `{}`:
+
+```js
+if (true) {
+  let blockVar = "Tôi là biến block";
+  const anotherVar = "Tôi cũng vậy";
+  console.log(blockVar); // Có thể truy cập
+}
+
+console.log(blockVar); // ❌ Lỗi: blockVar is not defined
+```
+
+### So sánh var, let, và const
+
+```js
+// var - function scope
+function testVar() {
+  if (true) {
+    var x = 1;
+  }
+  console.log(x); // 1 - có thể truy cập
+}
+
+// let - block scope
+function testLet() {
+  if (true) {
+    let y = 1;
+  }
+  console.log(y); // ❌ Lỗi: y is not defined
+}
+
+// const - block scope (không thể gán lại)
+const z = 1;
+z = 2; // ❌ Lỗi: Assignment to constant variable
+```
+
+## Hoisting là gì?
+
+Hoisting là cơ chế JavaScript "nâng" các khai báo lên đầu scope trước khi code được thực thi.
+
+### Function Hoisting
+
+Function declarations được hoist hoàn toàn:
+
+```js
+// Có thể gọi function trước khi khai báo
+sayHello(); // "Xin chào!"
+
+function sayHello() {
+  console.log("Xin chào!");
+}
+```
+
+### Variable Hoisting
+
+#### Với var
+
+```js
+console.log(x); // undefined (không phải lỗi!)
+var x = 5;
+console.log(x); // 5
+```
+
+Điều này tương đương với:
+
+```js
+var x; // Hoisted và khởi tạo với undefined
+console.log(x); // undefined
+x = 5;
+console.log(x); // 5
+```
+
+#### Với let và const
+
+```js
+console.log(y); // ❌ Lỗi: Cannot access 'y' before initialization
+let y = 5;
+
+console.log(z); // ❌ Lỗi: Cannot access 'z' before initialization
+const z = 5;
+```
+
+`let` và `const` được hoist nhưng không được khởi tạo (Temporal Dead Zone).
+
+## Ví dụ thực tế
+
+### Vấn đề với var trong vòng lặp
+
+```js
+// ❌ Vấn đề với var
+for (var i = 0; i < 3; i++) {
+  setTimeout(function() {
+    console.log(i); // In ra 3, 3, 3
+  }, 1000);
+}
+
+// ✅ Giải pháp với let
+for (let i = 0; i < 3; i++) {
+  setTimeout(function() {
+    console.log(i); // In ra 0, 1, 2
+  }, 1000);
+}
+```
+
+### Function Expression vs Function Declaration
+
+```js
+// Function Declaration - được hoist
+sayHi(); // "Xin chào!"
+
+function sayHi() {
+  console.log("Xin chào!");
+}
+
+// Function Expression - không được hoist
+sayBye(); // ❌ Lỗi: sayBye is not a function
+
+var sayBye = function() {
+  console.log("Tạm biệt!");
+};
+
+// Arrow Function - không được hoist
+sayGoodbye(); // ❌ Lỗi: sayGoodbye is not a function
+
+const sayGoodbye = () => {
+  console.log("Tạm biệt!");
+};
+```
+
+## Scope Chain
+
+JavaScript tìm kiếm biến theo scope chain:
+
+```js
+const globalVar = "Global";
+
+function outerFunction() {
+  const outerVar = "Outer";
+  
+  function innerFunction() {
+    const innerVar = "Inner";
+    
+    // Tìm kiếm theo thứ tự:
+    // 1. innerFunction scope
+    // 2. outerFunction scope
+    // 3. Global scope
+    console.log(innerVar); // "Inner"
+    console.log(outerVar); // "Outer"
+    console.log(globalVar); // "Global"
+  }
+  
+  innerFunction();
+}
+
+outerFunction();
+```
+
+## Lexical Scope
+
+JavaScript sử dụng lexical scope (static scope) - scope được xác định tại thời điểm viết code:
+
+```js
+const name = "Global";
+
+function outer() {
+  const name = "Outer";
+  
+  function inner() {
+    console.log(name); // "Outer" - tìm trong outer scope
+  }
+  
+  return inner;
+}
+
+const innerFunc = outer();
+innerFunc(); // "Outer" - không phải "Global"
+```
+
+## Best Practices
+
+### 1. Luôn sử dụng let/const thay vì var
+
+```js
+// ❌ Tránh var
+var oldWay = "Không nên dùng";
+
+// ✅ Sử dụng const cho giá trị không đổi
+const constantValue = "Tốt";
+
+// ✅ Sử dụng let cho giá trị thay đổi
+let changeableValue = "Tốt";
+```
+
+### 2. Khai báo biến ở đầu scope
+
+```js
+// ✅ Rõ ràng và dễ đọc
+function goodFunction() {
+  const a = 1;
+  const b = 2;
+  
+  // Logic code
+  return a + b;
+}
+```
+
+### 3. Tránh biến global không cần thiết
+
+```js
+// ❌ Tránh
+var globalVar = "Không tốt";
+
+// ✅ Sử dụng module hoặc IIFE
+(function() {
+  const localVar = "Tốt";
+  // Code của bạn
+})();
+```
+
+## Kết luận
+
+- **Scope** xác định phạm vi truy cập của biến
+- **Hoisting** nâng khai báo lên đầu scope
+- Sử dụng `let` và `const` thay vì `var`
+- Hiểu rõ scope chain và lexical scope
+- Khai báo biến ở đầu scope để code rõ ràng
+
+Nắm vững Hoisting và Scope sẽ giúp bạn viết code JavaScript chính xác và tránh được nhiều lỗi khó hiểu!
+

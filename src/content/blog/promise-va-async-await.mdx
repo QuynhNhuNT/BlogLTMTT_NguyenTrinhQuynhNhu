@@ -1,0 +1,247 @@
+---
+title: "Promise và Async/Await trong JavaScript"
+description: "Hướng dẫn chi tiết về Promise và Async/Await, cách xử lý bất đồng bộ trong JavaScript"
+image: "/images/blog/promise-async.svg"
+date: "2024-06-02"
+author: "devbertskie"
+---
+
+Xử lý bất đồng bộ (asynchronous) là một phần không thể thiếu trong JavaScript. Promise và Async/Await là hai cách hiện đại để làm việc với code bất đồng bộ.
+
+## Promise là gì?
+
+Promise là một object đại diện cho kết quả (thành công hoặc thất bại) của một thao tác bất đồng bộ.
+
+```js
+const myPromise = new Promise((resolve, reject) => {
+  // Thực hiện một thao tác bất đồng bộ
+  setTimeout(() => {
+    const success = true;
+    if (success) {
+      resolve("Thành công!");
+    } else {
+      reject("Thất bại!");
+    }
+  }, 1000);
+});
+
+myPromise
+  .then(result => console.log(result)) // "Thành công!"
+  .catch(error => console.log(error)); // "Thất bại!"
+```
+
+## Các trạng thái của Promise
+
+Promise có 3 trạng thái:
+- **Pending**: Đang chờ xử lý
+- **Fulfilled**: Đã hoàn thành thành công
+- **Rejected**: Đã bị từ chối (lỗi)
+
+```js
+const promise = new Promise((resolve, reject) => {
+  // Pending state
+  setTimeout(() => {
+    resolve("Hoàn thành");
+    // Fulfilled state
+  }, 1000);
+});
+```
+
+## Promise Methods
+
+### Promise.all()
+
+Chờ tất cả các promise hoàn thành:
+
+```js
+const promise1 = Promise.resolve(3);
+const promise2 = 42;
+const promise3 = new Promise((resolve) => {
+  setTimeout(resolve, 100, 'foo');
+});
+
+Promise.all([promise1, promise2, promise3])
+  .then(values => {
+    console.log(values); // [3, 42, 'foo']
+  });
+```
+
+### Promise.race()
+
+Trả về promise đầu tiên hoàn thành:
+
+```js
+const promise1 = new Promise((resolve) => {
+  setTimeout(resolve, 500, 'Một');
+});
+const promise2 = new Promise((resolve) => {
+  setTimeout(resolve, 100, 'Hai');
+});
+
+Promise.race([promise1, promise2])
+  .then(value => {
+    console.log(value); // "Hai" (nhanh hơn)
+  });
+```
+
+### Promise.allSettled()
+
+Chờ tất cả promise hoàn thành (kể cả reject):
+
+```js
+const promise1 = Promise.resolve(3);
+const promise2 = Promise.reject('Lỗi');
+
+Promise.allSettled([promise1, promise2])
+  .then(results => {
+    console.log(results);
+    // [
+    //   { status: 'fulfilled', value: 3 },
+    //   { status: 'rejected', reason: 'Lỗi' }
+    // ]
+  });
+```
+
+## Async/Await
+
+Async/Await là cú pháp mới giúp viết code bất đồng bộ dễ đọc hơn:
+
+```js
+// Sử dụng Promise
+function fetchUser() {
+  return fetch('/api/user')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+}
+
+// Sử dụng Async/Await
+async function fetchUser() {
+  try {
+    const response = await fetch('/api/user');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+## Ví dụ thực tế
+
+### Fetch API với Async/Await
+
+```js
+async function getUserData(userId) {
+  try {
+    const response = await fetch(`/api/users/${userId}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const userData = await response.json();
+    return userData;
+  } catch (error) {
+    console.error('Lỗi khi lấy dữ liệu:', error);
+    throw error;
+  }
+}
+
+// Sử dụng
+getUserData(123)
+  .then(user => console.log(user))
+  .catch(error => console.error(error));
+```
+
+### Xử lý nhiều Promise song song
+
+```js
+async function fetchMultipleUsers(userIds) {
+  try {
+    // Tạo mảng các promise
+    const promises = userIds.map(id => 
+      fetch(`/api/users/${id}`).then(res => res.json())
+    );
+    
+    // Chờ tất cả hoàn thành
+    const users = await Promise.all(promises);
+    return users;
+  } catch (error) {
+    console.error('Lỗi:', error);
+  }
+}
+```
+
+### Xử lý tuần tự
+
+```js
+async function processData() {
+  const step1 = await doStep1();
+  const step2 = await doStep2(step1);
+  const step3 = await doStep3(step2);
+  return step3;
+}
+```
+
+## Best Practices
+
+### 1. Luôn sử dụng try-catch
+
+```js
+async function safeAsyncFunction() {
+  try {
+    const result = await someAsyncOperation();
+    return result;
+  } catch (error) {
+    // Xử lý lỗi một cách rõ ràng
+    console.error('Lỗi:', error);
+    throw error; // Hoặc return giá trị mặc định
+  }
+}
+```
+
+### 2. Tránh await trong vòng lặp không cần thiết
+
+```js
+// ❌ Chậm - chờ từng promise
+for (const id of userIds) {
+  const user = await fetchUser(id);
+  processUser(user);
+}
+
+// ✅ Nhanh - xử lý song song
+const users = await Promise.all(
+  userIds.map(id => fetchUser(id))
+);
+users.forEach(processUser);
+```
+
+### 3. Sử dụng Promise.allSettled() khi cần tất cả kết quả
+
+```js
+const results = await Promise.allSettled([
+  fetchUser(1),
+  fetchUser(2),
+  fetchUser(3)
+]);
+
+results.forEach((result, index) => {
+  if (result.status === 'fulfilled') {
+    console.log(`User ${index + 1}:`, result.value);
+  } else {
+    console.error(`User ${index + 1} failed:`, result.reason);
+  }
+});
+```
+
+## Kết luận
+
+Promise và Async/Await là công cụ mạnh mẽ để:
+- Xử lý code bất đồng bộ một cách rõ ràng
+- Tránh callback hell
+- Dễ dàng xử lý lỗi
+- Viết code dễ đọc và bảo trì
+
+Nắm vững Promise và Async/Await sẽ giúp bạn viết code JavaScript hiện đại và hiệu quả hơn!
+

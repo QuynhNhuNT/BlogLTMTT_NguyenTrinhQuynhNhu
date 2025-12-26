@@ -1,0 +1,14 @@
+<svg width="804" height="452" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hoistGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DB2777;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="804" height="452" fill="url(#hoistGrad)"/>
+  <text x="402" y="180" font-family="Arial, sans-serif" font-size="38" font-weight="bold" fill="white" text-anchor="middle">Hoisting &amp; Scope</text>
+  <text x="402" y="230" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">Variable Declaration</text>
+  <path d="M 150 100 L 180 130 L 150 160 Z" fill="rgba(255,255,255,0.2)"/>
+  <path d="M 634 292 L 664 322 L 634 352 Z" fill="rgba(255,255,255,0.15)"/>
+</svg>
+

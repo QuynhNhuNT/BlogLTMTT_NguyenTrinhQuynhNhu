@@ -1,0 +1,200 @@
+---
+title: "Error Handling - Try/Catch và Xử lý lỗi trong JavaScript"
+description: "Tìm hiểu cách xử lý lỗi hiệu quả với try/catch, throw, và các best practices"
+image: "/images/blog/error-handling.svg"
+date: "2024-06-12"
+author: "devbertskie"
+---
+
+Xử lý lỗi là một phần quan trọng trong lập trình. JavaScript cung cấp các cơ chế mạnh mẽ để xử lý lỗi một cách graceful.
+
+## Try/Catch/Finally
+
+### Cú pháp cơ bản
+
+```js
+try {
+  // Code có thể gây lỗi
+  const result = riskyOperation();
+  console.log(result);
+} catch (error) {
+  // Xử lý lỗi
+  console.error("Có lỗi xảy ra:", error.message);
+} finally {
+  // Luôn được thực thi
+  console.log("Hoàn thành");
+}
+```
+
+### Ví dụ thực tế
+
+```js
+function divide(a, b) {
+  if (b === 0) {
+    throw new Error("Không thể chia cho 0");
+  }
+  return a / b;
+}
+
+try {
+  const result = divide(10, 0);
+  console.log(result);
+} catch (error) {
+  console.error("Lỗi:", error.message); // "Lỗi: Không thể chia cho 0"
+}
+```
+
+## Throw Statement
+
+Bạn có thể tự tạo và throw lỗi:
+
+```js
+function validateAge(age) {
+  if (age < 0) {
+    throw new Error("Tuổi không thể âm");
+  }
+  if (age > 150) {
+    throw new Error("Tuổi không hợp lệ");
+  }
+  return true;
+}
+
+try {
+  validateAge(-5);
+} catch (error) {
+  console.error(error.message); // "Tuổi không thể âm"
+}
+```
+
+## Custom Error Classes
+
+Tạo các loại lỗi tùy chỉnh:
+
+```js
+class ValidationError extends Error {
+  constructor(message, field) {
+    super(message);
+    this.name = "ValidationError";
+    this.field = field;
+  }
+}
+
+class NetworkError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.name = "NetworkError";
+    this.statusCode = statusCode;
+  }
+}
+
+try {
+  throw new ValidationError("Email không hợp lệ", "email");
+} catch (error) {
+  if (error instanceof ValidationError) {
+    console.error(`Lỗi validation ở ${error.field}: ${error.message}`);
+  }
+}
+```
+
+## Error Handling với Async/Await
+
+```js
+async function fetchUserData(userId) {
+  try {
+    const response = await fetch(`/api/users/${userId}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Lỗi khi fetch dữ liệu:", error);
+    throw error; // Re-throw để xử lý ở nơi gọi
+  }
+}
+
+// Sử dụng
+fetchUserData(123)
+  .then(data => console.log(data))
+  .catch(error => console.error("Lỗi:", error));
+```
+
+## Promise Error Handling
+
+```js
+fetch('/api/data')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+## Finally Block
+
+Finally luôn được thực thi, dù có lỗi hay không:
+
+```js
+function processFile(filename) {
+  let file = null;
+  try {
+    file = openFile(filename);
+    process(file);
+  } catch (error) {
+    console.error("Lỗi xử lý file:", error);
+  } finally {
+    if (file) {
+      closeFile(file); // Luôn đóng file
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Luôn xử lý lỗi cụ thể:**
+```js
+try {
+  // code
+} catch (error) {
+  if (error instanceof TypeError) {
+    // Xử lý TypeError
+  } else if (error instanceof ReferenceError) {
+    // Xử lý ReferenceError
+  } else {
+    // Xử lý lỗi khác
+  }
+}
+```
+
+2. **Không bỏ qua lỗi:**
+```js
+// ❌ SAI
+try {
+  riskyOperation();
+} catch (error) {
+  // Bỏ qua lỗi
+}
+
+// ✅ ĐÚNG
+try {
+  riskyOperation();
+} catch (error) {
+  console.error("Lỗi:", error);
+  // Hoặc xử lý lỗi một cách phù hợp
+}
+```
+
+## Kết luận
+
+Error handling giúp:
+- Ứng dụng không bị crash khi có lỗi
+- Cung cấp thông báo lỗi rõ ràng cho người dùng
+- Debug dễ dàng hơn
+- Tạo trải nghiệm người dùng tốt hơn
+
+Xử lý lỗi đúng cách là dấu hiệu của một developer chuyên nghiệp!
+

@@ -1,0 +1,366 @@
+---
+title: "ES6+ Features - Tính năng hiện đại của JavaScript"
+description: "Tổng hợp các tính năng mới và hữu ích từ ES6 trở đi trong JavaScript"
+image: "/images/blog/es6-features.svg"
+date: "2024-06-09"
+author: "devbertskie"
+---
+
+ES6 (ECMAScript 2015) và các phiên bản sau đã mang đến nhiều tính năng mới giúp JavaScript hiện đại và mạnh mẽ hơn. Hãy cùng khám phá những tính năng quan trọng nhất.
+
+## Arrow Functions
+
+Arrow functions cung cấp cú pháp ngắn gọn hơn và xử lý `this` khác biệt:
+
+```js
+// Function thông thường
+const add1 = function(a, b) {
+  return a + b;
+};
+
+// Arrow function
+const add2 = (a, b) => {
+  return a + b;
+};
+
+// Arrow function ngắn gọn (implicit return)
+const add3 = (a, b) => a + b;
+
+// Một tham số không cần dấu ngoặc
+const square = x => x * x;
+
+// Không có tham số
+const greet = () => console.log("Xin chào!");
+```
+
+## Template Literals
+
+Template literals cho phép nhúng biểu thức vào chuỗi:
+
+```js
+const name = "Nguyễn Văn A";
+const age = 25;
+
+// Cách cũ
+const message1 = "Xin chào, tôi là " + name + ", " + age + " tuổi";
+
+// Template literal
+const message2 = `Xin chào, tôi là ${name}, ${age} tuổi`;
+
+// Multi-line strings
+const html = `
+  <div>
+    <h1>${name}</h1>
+    <p>Tuổi: ${age}</p>
+  </div>
+`;
+```
+
+## let và const
+
+`let` và `const` cung cấp block scope thay vì function scope như `var`:
+
+```js
+// let - có thể thay đổi
+let count = 0;
+count = 1; // OK
+
+// const - không thể thay đổi (nhưng object/array bên trong có thể)
+const PI = 3.14;
+// PI = 3.14159; // ❌ Lỗi
+
+const user = { name: "Nguyễn Văn A" };
+user.name = "Trần Thị B"; // ✅ OK
+// user = {}; // ❌ Lỗi
+```
+
+## Destructuring
+
+Đã được đề cập chi tiết ở bài trước, nhưng đây là ví dụ nhanh:
+
+```js
+// Array destructuring
+const [a, b, c] = [1, 2, 3];
+
+// Object destructuring
+const { name, age } = { name: "Nguyễn Văn A", age: 25 };
+```
+
+## Default Parameters
+
+Gán giá trị mặc định cho tham số:
+
+```js
+function greet(name = "Khách", greeting = "Xin chào") {
+  console.log(`${greeting}, ${name}!`);
+}
+
+greet(); // "Xin chào, Khách!"
+greet("Nguyễn Văn A"); // "Xin chào, Nguyễn Văn A!"
+greet("Trần Thị B", "Chào bạn"); // "Chào bạn, Trần Thị B!"
+```
+
+## Rest và Spread Operators
+
+Đã được đề cập chi tiết, nhưng đây là tóm tắt:
+
+```js
+// Rest - gom các tham số
+function sum(...numbers) {
+  return numbers.reduce((a, b) => a + b, 0);
+}
+
+// Spread - trải rộng
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5];
+```
+
+## Classes
+
+ES6 giới thiệu cú pháp class:
+
+```js
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  
+  greet() {
+    console.log(`Xin chào, tôi là ${this.name}`);
+  }
+  
+  get info() {
+    return `${this.name}, ${this.age} tuổi`;
+  }
+  
+  set age(newAge) {
+    if (newAge > 0) {
+      this._age = newAge;
+    }
+  }
+}
+
+class Student extends Person {
+  constructor(name, age, school) {
+    super(name, age);
+    this.school = school;
+  }
+  
+  study() {
+    console.log(`${this.name} đang học tại ${this.school}`);
+  }
+}
+
+const student = new Student("Nguyễn Văn A", 20, "Đại học ABC");
+student.greet(); // "Xin chào, tôi là Nguyễn Văn A"
+student.study(); // "Nguyễn Văn A đang học tại Đại học ABC"
+```
+
+## Modules (import/export)
+
+ES6 modules cho phép tổ chức code tốt hơn:
+
+```js
+// math.js
+export const PI = 3.14159;
+
+export function add(a, b) {
+  return a + b;
+}
+
+export default function multiply(a, b) {
+  return a * b;
+}
+
+// main.js
+import multiply, { PI, add } from './math.js';
+
+console.log(add(2, 3)); // 5
+console.log(multiply(2, 3)); // 6
+console.log(PI); // 3.14159
+```
+
+## Promises
+
+Đã được đề cập chi tiết, nhưng đây là ví dụ nhanh:
+
+```js
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Thành công!");
+  }, 1000);
+});
+
+promise
+  .then(result => console.log(result))
+  .catch(error => console.error(error));
+```
+
+## for...of và for...in
+
+```js
+const arr = [1, 2, 3];
+
+// for...of - lặp qua values
+for (const value of arr) {
+  console.log(value); // 1, 2, 3
+}
+
+// for...in - lặp qua keys
+const obj = { a: 1, b: 2, c: 3 };
+for (const key in obj) {
+  console.log(key, obj[key]); // a 1, b 2, c 3
+}
+```
+
+## Map và Set
+
+### Map
+
+```js
+const map = new Map();
+map.set('name', 'Nguyễn Văn A');
+map.set('age', 25);
+
+console.log(map.get('name')); // "Nguyễn Văn A"
+console.log(map.size); // 2
+
+// Lặp qua Map
+for (const [key, value] of map) {
+  console.log(key, value);
+}
+```
+
+### Set
+
+```js
+const set = new Set([1, 2, 3, 3, 4, 4]);
+console.log(set); // Set {1, 2, 3, 4} - tự động loại bỏ duplicate
+
+set.add(5);
+set.delete(2);
+console.log(set.has(3)); // true
+```
+
+## Object Shorthand
+
+```js
+const name = "Nguyễn Văn A";
+const age = 25;
+
+// Cách cũ
+const user1 = {
+  name: name,
+  age: age,
+  greet: function() {
+    console.log("Xin chào");
+  }
+};
+
+// ES6 shorthand
+const user2 = {
+  name,
+  age,
+  greet() {
+    console.log("Xin chào");
+  }
+};
+```
+
+## Computed Property Names
+
+```js
+const prop = 'name';
+
+const obj = {
+  [prop]: 'Nguyễn Văn A',
+  [`${prop}UpperCase`]: 'NGUYỄN VĂN A'
+};
+
+console.log(obj.name); // "Nguyễn Văn A"
+console.log(obj.nameUpperCase); // "NGUYỄN VĂN A"
+```
+
+## Optional Chaining (ES2020)
+
+```js
+const user = {
+  name: "Nguyễn Văn A",
+  address: {
+    city: "Hà Nội"
+  }
+};
+
+// Tránh lỗi khi property không tồn tại
+console.log(user.address?.city); // "Hà Nội"
+console.log(user.address?.street); // undefined (không lỗi)
+console.log(user.contact?.phone); // undefined (không lỗi)
+
+// Với arrays
+const arr = [1, 2, 3];
+console.log(arr?.[0]); // 1
+console.log(arr?.[10]); // undefined
+```
+
+## Nullish Coalescing (ES2020)
+
+```js
+const value1 = null;
+const value2 = undefined;
+const value3 = 0;
+const value4 = "";
+
+// Chỉ dùng giá trị mặc định khi null hoặc undefined
+const result1 = value1 ?? "Mặc định"; // "Mặc định"
+const result2 = value2 ?? "Mặc định"; // "Mặc định"
+const result3 = value3 ?? "Mặc định"; // 0 (vì 0 không phải null/undefined)
+const result4 = value4 ?? "Mặc định"; // "" (vì "" không phải null/undefined)
+```
+
+## Top-level Await (ES2022)
+
+```js
+// Có thể dùng await ở top-level (trong modules)
+const data = await fetch('/api/data').then(res => res.json());
+console.log(data);
+```
+
+## Array Methods mới
+
+### Array.includes()
+
+```js
+const arr = [1, 2, 3];
+console.log(arr.includes(2)); // true
+console.log(arr.includes(4)); // false
+```
+
+### Array.find() và Array.findIndex()
+
+```js
+const users = [
+  { id: 1, name: "Nguyễn Văn A" },
+  { id: 2, name: "Trần Thị B" }
+];
+
+const user = users.find(u => u.id === 2);
+console.log(user); // { id: 2, name: "Trần Thị B" }
+
+const index = users.findIndex(u => u.name === "Trần Thị B");
+console.log(index); // 1
+```
+
+## Kết luận
+
+ES6+ đã mang đến nhiều tính năng mạnh mẽ:
+- Arrow functions - cú pháp ngắn gọn
+- Template literals - strings linh hoạt
+- let/const - block scope
+- Destructuring - lấy giá trị dễ dàng
+- Classes - OOP rõ ràng hơn
+- Modules - tổ chức code tốt hơn
+- Và nhiều tính năng khác...
+
+Nắm vững các tính năng ES6+ sẽ giúp bạn viết code JavaScript hiện đại, sạch sẽ và hiệu quả hơn!
+

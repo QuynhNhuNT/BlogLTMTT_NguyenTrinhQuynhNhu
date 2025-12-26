@@ -1,0 +1,195 @@
+---
+title: "Template Literals trong JavaScript - Chuỗi thông minh"
+description: "Tìm hiểu cách sử dụng Template Literals để tạo chuỗi động và đa dòng một cách dễ dàng"
+image: "/images/blog/template-literals.svg"
+date: "2024-06-17"
+author: "devbertskie"
+---
+
+Template Literals (Template Strings) là cách hiện đại để làm việc với chuỗi trong JavaScript, giúp code dễ đọc và linh hoạt hơn.
+
+## Cú pháp cơ bản
+
+Template Literals sử dụng backticks (`) thay vì dấu nháy đơn hoặc kép:
+
+```js
+// Cách cũ
+const name = "Quỳnh Như";
+const greeting = "Xin chào, " + name + "!";
+
+// Template Literal
+const greeting = `Xin chào, ${name}!`;
+```
+
+## String Interpolation
+
+Chèn biến và biểu thức vào chuỗi:
+
+```js
+const name = "Quỳnh Như";
+const age = 20;
+
+// Biến
+const message = `Tôi là ${name}, ${age} tuổi.`;
+console.log(message); // "Tôi là Quỳnh Như, 20 tuổi."
+
+// Biểu thức
+const calculation = `5 + 3 = ${5 + 3}`;
+console.log(calculation); // "5 + 3 = 8"
+
+// Function calls
+const upperName = `Tên viết hoa: ${name.toUpperCase()}`;
+console.log(upperName); // "Tên viết hoa: QUỲNH NHƯ"
+```
+
+## Multi-line Strings
+
+Tạo chuỗi nhiều dòng dễ dàng:
+
+```js
+// Cách cũ - khó đọc
+const message = "Dòng 1\n" +
+                "Dòng 2\n" +
+                "Dòng 3";
+
+// Template Literal - dễ đọc
+const message = `Dòng 1
+Dòng 2
+Dòng 3`;
+
+console.log(message);
+// Dòng 1
+// Dòng 2
+// Dòng 3
+```
+
+## Tagged Templates
+
+Tagged Templates cho phép xử lý template literal bằng function:
+
+```js
+function highlight(strings, ...values) {
+  return strings.reduce((result, string, i) => {
+    const value = values[i] ? `<strong>${values[i]}</strong>` : '';
+    return result + string + value;
+  }, '');
+}
+
+const name = "Quỳnh Như";
+const age = 20;
+
+const result = highlight`Tên: ${name}, Tuổi: ${age}`;
+console.log(result); // "Tên: <strong>Quỳnh Như</strong>, Tuổi: <strong>20</strong>"
+```
+
+## Nested Templates
+
+Template Literals có thể lồng nhau:
+
+```js
+const items = ['JavaScript', 'Networking', 'Cloud'];
+const list = `
+  <ul>
+    ${items.map(item => `<li>${item}</li>`).join('')}
+  </ul>
+`;
+
+console.log(list);
+// <ul>
+//   <li>JavaScript</li>
+//   <li>Networking</li>
+//   <li>Cloud</li>
+// </ul>
+```
+
+## Conditional Expressions
+
+Sử dụng toán tử ternary:
+
+```js
+const isLoggedIn = true;
+const message = `Trạng thái: ${isLoggedIn ? 'Đã đăng nhập' : 'Chưa đăng nhập'}`;
+console.log(message); // "Trạng thái: Đã đăng nhập"
+```
+
+## Function Calls
+
+Gọi function trong template:
+
+```js
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  }).format(amount);
+}
+
+const price = 1000000;
+const message = `Giá: ${formatCurrency(price)}`;
+console.log(message); // "Giá: 1.000.000 ₫"
+```
+
+## HTML Templates
+
+Tạo HTML dễ dàng:
+
+```js
+const user = {
+  name: "Quỳnh Như",
+  email: "quynhnhu@example.com",
+  avatar: "/images/avatar.jpg"
+};
+
+const html = `
+  <div class="user-card">
+    <img src="${user.avatar}" alt="${user.name}">
+    <h2>${user.name}</h2>
+    <p>${user.email}</p>
+  </div>
+`;
+```
+
+## SQL Queries
+
+Tạo SQL queries động:
+
+```js
+const tableName = "users";
+const userId = 123;
+
+const query = `
+  SELECT * FROM ${tableName}
+  WHERE id = ${userId}
+`;
+```
+
+## Escaping
+
+Để hiển thị backtick trong template:
+
+```js
+const message = `Đây là backtick: \`${name}\``;
+console.log(message); // "Đây là backtick: `Quỳnh Như`"
+```
+
+## Performance
+
+Template Literals có performance tương đương string concatenation:
+
+```js
+// Cả hai đều nhanh
+const name = "Quỳnh Như";
+const str1 = "Hello, " + name + "!";
+const str2 = `Hello, ${name}!`;
+```
+
+## Kết luận
+
+Template Literals giúp:
+- Code dễ đọc và bảo trì hơn
+- Tạo multi-line strings dễ dàng
+- String interpolation linh hoạt
+- Tạo HTML/SQL templates hiệu quả
+
+Template Literals là tính năng không thể thiếu trong JavaScript hiện đại!
+
