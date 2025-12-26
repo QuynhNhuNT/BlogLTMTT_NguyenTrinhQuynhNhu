@@ -1,9 +1,14 @@
+[data-rehype-pretty-code-figure] {
+  @apply rounded-lg border-2 border-gray-800 bg-gray-900 shadow-lg overflow-hidden;
+}
+
 [data-rehype-pretty-code-figure] pre {
-  @apply px-0;
+  @apply px-0 !bg-gray-900;
 }
 
 [data-rehype-pretty-code-figure] code {
-  @apply text-sm !leading-loose md:text-base border-0 p-0;
+  @apply text-sm !leading-loose md:text-base border-0 p-0 !text-gray-100 font-mono font-medium;
+  background: transparent !important;
 }
 
 [data-rehype-pretty-code-figure] code[data-line-numbers] {
@@ -13,25 +18,81 @@
 [data-rehype-pretty-code-figure] code[data-line-numbers] > [data-line]::before {
   counter-increment: line;
   content: counter(line);
-  @apply mr-4 inline-block w-4 text-right text-gray-500;
+  @apply mr-4 inline-block w-4 text-right text-gray-400;
 }
 
 [data-rehype-pretty-code-figure] [data-line] {
-  @apply border-l-2 border-l-transparent px-3;
+  @apply border-l-2 border-l-transparent px-4;
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-line] {
-  background: rgba(200, 200, 255, 0.1);
+  background: rgba(219, 39, 119, 0.15);
   @apply border-l-pink-500;
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-chars] {
-  @apply rounded bg-zinc-600/50;
-  box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+  @apply rounded bg-pink-500/30;
+  box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.3);
 }
 
 [data-rehype-pretty-code-figure] [data-chars-id] {
-  @apply border-b-2 p-1 shadow-none;
+  @apply border-b-2 border-pink-500/50 p-1 shadow-none;
+}
+
+/* Syntax highlighting colors for dark theme */
+[data-rehype-pretty-code-figure] .token.comment,
+[data-rehype-pretty-code-figure] .token.prolog,
+[data-rehype-pretty-code-figure] .token.doctype,
+[data-rehype-pretty-code-figure] .token.cdata {
+  @apply text-gray-500;
+}
+
+[data-rehype-pretty-code-figure] .token.punctuation {
+  @apply text-gray-300;
+}
+
+[data-rehype-pretty-code-figure] .token.property,
+[data-rehype-pretty-code-figure] .token.tag,
+[data-rehype-pretty-code-figure] .token.boolean,
+[data-rehype-pretty-code-figure] .token.number,
+[data-rehype-pretty-code-figure] .token.constant,
+[data-rehype-pretty-code-figure] .token.symbol,
+[data-rehype-pretty-code-figure] .token.deleted {
+  @apply text-pink-400;
+}
+
+[data-rehype-pretty-code-figure] .token.selector,
+[data-rehype-pretty-code-figure] .token.attr-name,
+[data-rehype-pretty-code-figure] .token.string,
+[data-rehype-pretty-code-figure] .token.char,
+[data-rehype-pretty-code-figure] .token.builtin,
+[data-rehype-pretty-code-figure] .token.inserted {
+  @apply text-green-400;
+}
+
+[data-rehype-pretty-code-figure] .token.operator,
+[data-rehype-pretty-code-figure] .token.entity,
+[data-rehype-pretty-code-figure] .token.url,
+[data-rehype-pretty-code-figure] .language-css .token.string,
+[data-rehype-pretty-code-figure] .style .token.string {
+  @apply text-yellow-400;
+}
+
+[data-rehype-pretty-code-figure] .token.atrule,
+[data-rehype-pretty-code-figure] .token.attr-value,
+[data-rehype-pretty-code-figure] .token.keyword {
+  @apply text-blue-400;
+}
+
+[data-rehype-pretty-code-figure] .token.function,
+[data-rehype-pretty-code-figure] .token.class-name {
+  @apply text-purple-400;
+}
+
+[data-rehype-pretty-code-figure] .token.regex,
+[data-rehype-pretty-code-figure] .token.important,
+[data-rehype-pretty-code-figure] .token.variable {
+  @apply text-orange-400;
 }
 
 .subheading-anchor {

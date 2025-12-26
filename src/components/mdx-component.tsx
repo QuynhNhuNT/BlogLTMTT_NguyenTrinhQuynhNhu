@@ -141,21 +141,26 @@ const components = {
   pre: ({ className, ...props }: ComponentsProps) => (
     <pre
       className={cn(
-        "mb-4 mt-6 overflow-x-auto text-sm  rounded-lg border !bg-secondary py-4",
+        "mb-4 mt-6 overflow-x-auto text-sm rounded-lg border-2 border-gray-800 !bg-gray-900 py-4 px-4 shadow-lg",
         className,
       )}
       {...props}
     />
   ),
-  code: ({ className, ...props }: ComponentsProps) => (
-    <code
-      className={cn(
-        "relative rounded border px-[0.3rem] py-[0.2rem] !bg-secondary font-code font-light !text-sm",
-        className,
-      )}
-      {...props}
-    />
-  ),
+  code: ({ className, ...props }: ComponentsProps) => {
+    const isInlineCode = !className || !String(className).includes("language-");
+    return (
+      <code
+        className={cn(
+          isInlineCode
+            ? "relative rounded border px-[0.3rem] py-[0.2rem] !bg-secondary font-code font-light !text-sm"
+            : "!bg-transparent !text-gray-100 font-mono font-medium !text-sm leading-relaxed",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
   Image,
 };
 

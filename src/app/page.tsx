@@ -16,14 +16,14 @@ export default function Home() {
           <div className="relative z-10 h-full flex flex-col justify-between p-6 lg:p-8">
             {/* Top Left - Name and Title */}
             <div>
-              <p className="text-base lg:text-lg font-semibold text-gray-900">
+              <p className="text-sm lg:text-base font-semibold text-gray-900">
                 QUỲNH NHƯ | KỸ SƯ MẠNG MÁY TÍNH
               </p>
             </div>
 
             {/* Center - Avatar Image */}
             <div className="flex items-center justify-center flex-1">
-              <div className="relative w-64 h-[24rem] lg:w-72 lg:h-[28rem] xl:w-80 xl:h-[32rem] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative w-48 h-[18rem] lg:w-56 lg:h-[22rem] xl:w-64 xl:h-[24rem] rounded-2xl overflow-hidden shadow-2xl">
                 <Image
                   src="/images/home-avatar.jpg"
                   alt={siteConfig.author}
@@ -42,57 +42,57 @@ export default function Home() {
         </div>
 
         {/* Right Side - Content with Pink Background (60%) */}
-        <div className="bg-pink-50 flex items-center justify-center p-6 lg:p-10 order-2 lg:order-2">
-          <div className="max-w-2xl w-full space-y-6">
+        <div className="bg-pink-50 flex items-center justify-center p-4 lg:p-6 order-2 lg:order-2">
+          <div className="max-w-2xl w-full space-y-4">
             {/* Top Right - Homepage Label */}
             <div className="text-right">
-              <p className="text-sm lg:text-base font-semibold text-gray-900">TRANG CHỦ</p>
+              <p className="text-xs lg:text-sm font-semibold text-gray-900">TRANG CHỦ</p>
             </div>
 
             {/* Welcome Message */}
             <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                 Xin chào, mình là Quỳnh Như.
               </h1>
             </div>
 
             {/* Slogan */}
             <div>
-              <p className="text-base lg:text-lg text-gray-900 leading-relaxed">
+              <p className="text-sm lg:text-base text-gray-900 leading-relaxed">
                 Hành động thay lời nói, thành công thay minh chứng. Kỹ sư Mạng Máy tính đam mê với hạ tầng mạng, quản trị hệ thống và điện toán đám mây.
               </p>
             </div>
 
             {/* Navigation Buttons */}
-            <div className="space-y-3 pt-4">
+            <div className="space-y-2 pt-3">
               <Link
                 href="/blog"
-                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-6 py-3 text-center text-gray-900 font-semibold text-base lg:text-lg hover:bg-gray-50 transition-colors"
+                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-4 py-2 text-center text-gray-900 font-semibold text-sm lg:text-base hover:bg-gray-50 transition-colors"
               >
                 BLOG
               </Link>
               <Link
                 href="/about"
-                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-6 py-3 text-center text-gray-900 font-semibold text-base lg:text-lg hover:bg-gray-50 transition-colors"
+                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-4 py-2 text-center text-gray-900 font-semibold text-sm lg:text-base hover:bg-gray-50 transition-colors"
               >
                 ABOUT
               </Link>
               <Link
                 href="/achievements"
-                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-6 py-3 text-center text-gray-900 font-semibold text-base lg:text-lg hover:bg-gray-50 transition-colors"
+                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-4 py-2 text-center text-gray-900 font-semibold text-sm lg:text-base hover:bg-gray-50 transition-colors"
               >
                 KINH NGHIỆM VÀ THÀNH TÍCH
               </Link>
               <Link
                 href="/contact"
-                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-6 py-3 text-center text-gray-900 font-semibold text-base lg:text-lg hover:bg-gray-50 transition-colors"
+                className="block w-full bg-white border-2 border-gray-300 rounded-lg px-4 py-2 text-center text-gray-900 font-semibold text-sm lg:text-base hover:bg-gray-50 transition-colors"
               >
                 KẾT NỐI VỚI MÌNH
               </Link>
             </div>
 
             {/* Social Media Icons - Centered */}
-            <div className="flex items-center justify-center space-x-4 pt-6">
+            <div className="flex items-center justify-center space-x-3 pt-4">
               {SOCIALS.map((social) => (
                 <Link
                   key={social.label}
@@ -102,7 +102,7 @@ export default function Home() {
                   className="text-gray-900 hover:text-primary transition-colors"
                   aria-label={social.label}
                 >
-                  <social.icon className="size-6 lg:size-7" />
+                  <social.icon className="size-5 lg:size-6" />
                 </Link>
               ))}
             </div>

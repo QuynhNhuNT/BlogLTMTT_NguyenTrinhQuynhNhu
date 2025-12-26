@@ -165,22 +165,22 @@ export default function AchievementsPage() {
 
   return (
     <div className="min-h-screen bg-pink-50">
-      <div className="container relative max-w-[1600px] py-8 lg:py-16">
-      <div className="flex flex-col items-start gap-6 md:flex-row md:justify-between md:gap-10">
-        <div className="flex-1 space-y-6">
-          <div className="flex items-center gap-4">
-            <GraduationCap className="size-12 lg:size-16 text-primary" />
-            <h1 className="inline-block text-5xl font-bold leading-tight tracking-tight text-primary lg:text-6xl xl:text-7xl">
+      <div className="container relative max-w-[1600px] py-3 lg:py-5">
+      <div className="flex flex-col items-start gap-3 md:flex-row md:justify-between md:gap-5">
+        <div className="flex-1 space-y-2">
+          <div className="flex items-center gap-2">
+            <GraduationCap className="size-6 lg:size-8 text-primary" />
+            <h1 className="inline-block text-xl font-bold leading-tight tracking-tight text-primary lg:text-2xl xl:text-3xl">
               Thành tích và kinh nghiệm
             </h1>
           </div>
-          <p className="text-2xl leading-relaxed text-muted-foreground lg:text-3xl">
+          <p className="text-xs leading-relaxed text-muted-foreground lg:text-sm">
             Hồ sơ chi tiết về học vấn, chứng chỉ và kinh nghiệm làm việc
           </p>
         </div>
       </div>
       
-      <div className="my-10 flex items-center justify-between">
+      <div className="my-5 flex items-center justify-between">
         <Link
           href="/about"
           className="inline-flex items-center justify-center gap-3 rounded-lg border-2 border-input bg-background px-6 py-3 text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -196,35 +196,35 @@ export default function AchievementsPage() {
         </button>
       </div>
 
-      <hr className="my-12 border-2" />
+      <hr className="my-5 border-2" />
 
-      <div className="space-y-16">
+      <div className="space-y-6">
         {/* EDUCATION */}
         <section>
-          <div className="mb-8 flex items-center gap-4">
-            <span className="text-4xl">🎓</span>
-            <h2 className="text-4xl font-bold lg:text-5xl">HỌC VẤN</h2>
+          <div className="mb-4 flex items-center gap-2">
+            <span className="text-xl">🎓</span>
+            <h2 className="text-lg font-bold lg:text-xl">HỌC VẤN</h2>
           </div>
-          <div className="space-y-8">
+          <div className="space-y-4">
             {education.map((item, index) => (
               <div
                 key={index}
-                className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
+                className="rounded-2xl border-2 border-gray-200 bg-white p-4 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="space-y-4">
-                  <h3 className="text-3xl lg:text-4xl font-bold text-gray-900">{item.organization}</h3>
-                  <div className="space-y-2">
-                    <p className="text-xl lg:text-2xl font-semibold text-gray-700">Ngành: Công nghệ thông tin</p>
-                    <p className="text-xl lg:text-2xl font-semibold text-gray-700">Chuyên ngành: Mạng máy tính</p>
+                <div className="space-y-1.5">
+                  <h3 className="text-base lg:text-lg font-bold text-gray-900">{item.organization}</h3>
+                  <div className="space-y-1">
+                    <p className="text-xs lg:text-sm font-semibold text-gray-700">Ngành: Công nghệ thông tin</p>
+                    <p className="text-xs lg:text-sm font-semibold text-gray-700">Chuyên ngành: Mạng máy tính</p>
                   </div>
-                  <div className="flex flex-wrap gap-6 pt-4">
+                  <div className="flex flex-wrap gap-3 pt-1.5">
                     <div>
-                      <span className="text-lg lg:text-xl font-semibold text-gray-900">GPA: </span>
-                      <span className="text-lg lg:text-xl font-bold text-primary">3.0</span>
+                      <span className="text-xs font-semibold text-gray-900">GPA: </span>
+                      <span className="text-xs font-bold text-primary">3.0</span>
                     </div>
                     <div>
-                      <span className="text-lg lg:text-xl font-semibold text-gray-900">Ngoại ngữ: </span>
-                      <span className="text-lg lg:text-xl font-bold text-primary">B1</span>
+                      <span className="text-xs font-semibold text-gray-900">Ngoại ngữ: </span>
+                      <span className="text-xs font-bold text-primary">B1</span>
                     </div>
                   </div>
                 </div>
@@ -236,15 +236,15 @@ export default function AchievementsPage() {
         {/* CERTIFICATIONS */}
         {certifications.length > 0 && (
           <section>
-            <div className="mb-8 flex items-center gap-4">
-              <span className="text-4xl">🏆</span>
-              <h2 className="text-4xl font-bold lg:text-5xl">CHỨNG CHỈ & BẰNG CẤP</h2>
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-xl">🏆</span>
+              <h2 className="text-lg font-bold lg:text-xl">CHỨNG CHỈ & BẰNG CẤP</h2>
             </div>
-            <div className="grid gap-12 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               {certifications.map((item, index) => (
                 <article
                   key={index}
-                  className="group relative flex flex-col space-y-4 cursor-pointer"
+                  className="group relative flex flex-col space-y-1.5 cursor-pointer rounded-2xl border-2 border-gray-200 bg-white p-3 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
                   onClick={() => setSelectedCert(item)}
                 >
                   {item.image && (
@@ -259,16 +259,16 @@ export default function AchievementsPage() {
                     </div>
                   )}
                   
-                  <h3 className="text-3xl font-extrabold text-primary">
+                  <h3 className="text-base font-extrabold text-primary">
                     {item.name}
                   </h3>
                   
-                  <p className="text-lg font-medium text-primary">
+                  <p className="text-xs font-medium text-primary">
                     {item.issuer}
                   </p>
                   
                   {item.date && (
-                    <p className="text-base text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       📅 {item.date}
                     </p>
                   )}
@@ -283,27 +283,27 @@ export default function AchievementsPage() {
                 onClick={() => setSelectedCert(null)}
               >
                   <div
-                    className="relative bg-white rounded-2xl p-6 max-w-xl w-full mx-4 shadow-2xl border-2 border-gray-200"
+                    className="relative bg-white rounded-2xl p-4 max-w-lg w-full mx-4 shadow-2xl border-2 border-gray-200"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <button
                       onClick={() => setSelectedCert(null)}
-                      className="absolute top-3 right-3 text-gray-500 hover:text-gray-900 transition-colors"
+                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-900 transition-colors"
                     >
-                      <X className="size-6" />
+                      <X className="size-5" />
                     </button>
 
-                    <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3 pr-10">
+                    <h3 className="text-base lg:text-lg font-bold text-gray-900 mb-2 pr-8">
                       {selectedCert.name}
                     </h3>
 
                     {selectedCert.description && selectedCert.description.length > 0 && (
-                      <div className="mt-4">
-                        <h4 className="mb-3 text-base lg:text-lg font-semibold text-gray-900">Kỹ năng có được:</h4>
-                        <ul className="space-y-2">
+                      <div className="mt-3">
+                        <h4 className="mb-2 text-sm lg:text-base font-semibold text-gray-900">Kỹ năng có được:</h4>
+                        <ul className="space-y-1.5">
                           {selectedCert.description.map((desc, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm lg:text-base text-gray-700">
-                              <span className="mt-1 text-base text-green-500 font-bold">✓</span>
+                            <li key={idx} className="flex items-start gap-2 text-xs lg:text-sm text-gray-700">
+                              <span className="mt-0.5 text-sm text-green-500 font-bold">✓</span>
                               <span>{desc}</span>
                             </li>
                           ))}
@@ -318,18 +318,18 @@ export default function AchievementsPage() {
 
         {/* SKILLS */}
         <section>
-          <div className="mb-8 flex items-center gap-4">
-            <span className="text-4xl">💻</span>
-            <h2 className="text-4xl font-bold lg:text-5xl">KỸ NĂNG</h2>
+          <div className="mb-4 flex items-center gap-2">
+            <span className="text-xl">💻</span>
+            <h2 className="text-lg font-bold lg:text-xl">KỸ NĂNG</h2>
           </div>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {skills.map((category, index) => (
               <div
                 key={index}
-                className="rounded-xl border-2 bg-secondary/30 p-8 transition-shadow hover:shadow-xl"
+                className="rounded-xl border-2 bg-secondary/30 p-4 transition-shadow hover:shadow-xl"
               >
-                <h3 className="mb-6 text-2xl font-semibold">{category.category}</h3>
-                <div className="flex flex-wrap gap-3">
+                <h3 className="mb-3 text-sm font-semibold">{category.category}</h3>
+                <div className="flex flex-wrap gap-1.5">
                   {category.skills.map((skill, skillIndex) => {
                     const skillDescriptions: { [key: string]: string } = {
                       "TCP/IP": "Giao thức truyền tải dữ liệu qua mạng Internet, bao gồm TCP (Transmission Control Protocol) và IP (Internet Protocol). TCP đảm bảo việc truyền dữ liệu đáng tin cậy, trong khi IP định tuyến các gói dữ liệu đến đúng đích.",
@@ -361,16 +361,16 @@ export default function AchievementsPage() {
                     const description = skillDescriptions[skill] || `Kỹ năng về ${skill}`;
                     return (
                       <div key={skillIndex} className="relative group">
-                        <span className="rounded-full bg-primary/10 px-4 py-2 text-base font-medium text-primary cursor-pointer hover:bg-primary/20 transition-colors">
+                        <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary cursor-pointer hover:bg-primary/20 transition-colors">
                           {skill}
                         </span>
                         {/* Tooltip */}
                         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
-                          <div className="bg-gradient-to-br from-pink-600 to-pink-700 text-white rounded-xl p-6 shadow-2xl max-w-xs w-72 border-2 border-pink-500/30">
-                            <h4 className="font-bold text-xl lg:text-2xl mb-2">{skill}</h4>
-                            <p className="text-sm lg:text-base leading-relaxed">{description}</p>
+                          <div className="bg-gradient-to-br from-pink-600 to-pink-700 text-white rounded-xl p-4 shadow-2xl max-w-xs w-64 border-2 border-pink-500/30">
+                            <h4 className="font-bold text-base lg:text-lg mb-1.5">{skill}</h4>
+                            <p className="text-xs lg:text-sm leading-relaxed">{description}</p>
                             <div 
-                              className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-[6px] border-transparent border-t-pink-600"
+                              className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-[4px] border-transparent border-t-pink-600"
                             ></div>
                           </div>
                         </div>
@@ -425,46 +425,46 @@ export default function AchievementsPage() {
         {/* EXPERIENCE */}
         {experience.length > 0 && (
           <section>
-            <div className="mb-8 flex items-center gap-4">
-              <span className="text-4xl">💼</span>
-              <h2 className="text-4xl font-bold lg:text-5xl">KINH NGHIỆM - PROJECT & ĐỒ ÁN</h2>
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-xl">💼</span>
+              <h2 className="text-lg font-bold lg:text-xl">KINH NGHIỆM - PROJECT & ĐỒ ÁN</h2>
             </div>
-            <div className="space-y-8">
+            <div className="space-y-4">
               {experience.map((item, index) => (
                 <div
                   key={index}
-                  className="rounded-xl border-l-4 border-primary bg-secondary/30 p-10 lg:p-12 transition-shadow hover:shadow-xl"
+                  className="rounded-xl border-l-4 border-primary bg-secondary/30 p-4 lg:p-5 transition-shadow hover:shadow-xl"
                 >
-                  <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mb-3 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <h3 className="text-3xl lg:text-4xl font-bold text-gray-900">{item.title}</h3>
-                      <p className="text-xl lg:text-2xl font-semibold text-primary mt-3">{item.organization}</p>
+                      <h3 className="text-base lg:text-lg font-bold text-gray-900">{item.title}</h3>
+                      <p className="text-xs lg:text-sm font-semibold text-primary mt-0.5">{item.organization}</p>
                     </div>
-                    <div className="mt-4 flex flex-col gap-3 text-lg lg:text-xl text-muted-foreground sm:mt-0 sm:items-end">
+                    <div className="mt-1.5 flex flex-col gap-1.5 text-xs text-muted-foreground sm:mt-0 sm:items-end">
                       {item.period && (
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl lg:text-3xl">📅</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm">📅</span>
                           <span className="font-medium">{item.period}</span>
                         </div>
                       )}
                       {item.location && (
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl lg:text-3xl">📍</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm">📍</span>
                           <span className="font-medium">{item.location}</span>
                         </div>
                       )}
                       {item.title.includes("AWS") && (
-                        <div className="flex items-center gap-3 mt-3">
-                          <span className="text-2xl lg:text-3xl">👤</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-sm">👤</span>
                           <span className="font-bold text-gray-900">Vai trò: Leader</span>
                         </div>
                       )}
                     </div>
                   </div>
-                  <ul className="mt-6 space-y-4">
+                  <ul className="mt-3 space-y-1.5">
                     {item.description.map((desc, idx) => (
-                      <li key={idx} className="flex items-start gap-4 text-lg lg:text-xl text-muted-foreground">
-                        <span className="mt-2 text-xl lg:text-2xl text-primary">{'//'}</span>
+                      <li key={idx} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                        <span className="mt-0.5 text-sm text-primary">{'//'}</span>
                         <span>{desc}</span>
                       </li>
                     ))}
