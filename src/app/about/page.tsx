@@ -11,46 +11,46 @@ import { Network, Server, Shield, Code, Database, Cloud, GraduationCap } from "l
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-pink-50">
-      <div className="container relative max-w-[1600px] py-8 lg:py-16">
+      <div className="container relative max-w-[1600px] py-6 lg:py-10">
         <PageHeader 
           title="Giới thiệu" 
           description="Tìm hiểu thêm về tôi và công việc của một kỹ sư mạng máy tính" 
         />
-        <hr className="my-12 border-2" />
+        <hr className="my-8 border-2" />
 
-        <div className="flex flex-col items-center space-y-12 lg:flex-row lg:items-start lg:space-x-12 lg:space-y-0">
+        <div className="flex flex-col items-center space-y-8 lg:flex-row lg:items-start lg:space-x-8 lg:space-y-0">
           {/* Bên trái: Card thông tin cá nhân và Định hướng */}
-          <div className="mx-auto w-full max-w-[500px] space-y-10">
+          <div className="mx-auto w-full max-w-[500px] space-y-6">
             {/* Card thông tin cá nhân */}
-            <div className="relative flex flex-col items-center gap-6 rounded-xl bg-secondary px-8 py-12 shadow-xl">
+            <div className="relative flex flex-col items-center gap-4 rounded-xl bg-secondary px-6 py-8 shadow-xl">
               <Image
                 src={siteConfig.authorImage}
-                width={160}
-                height={160}
+                width={120}
+                height={120}
                 alt="Nguyễn Trình Quỳnh Như"
-                className="absolute -top-16 mb-4 rounded-full border-[6px] border-primary bg-primary object-cover aspect-square"
+                className="absolute -top-12 mb-4 rounded-full border-[4px] border-primary bg-primary object-cover aspect-square"
                 style={{ borderRadius: '50%' }}
               />
-              <div className="mt-16 text-center">
-                <h3 className="mt-4 text-3xl font-bold">Nguyễn Trình Quỳnh Như</h3>
-                <p className="mt-3 text-center text-xl font-semibold text-primary">
+              <div className="mt-12 text-center">
+                <h3 className="mt-4 text-2xl font-bold">Nguyễn Trình Quỳnh Như</h3>
+                <p className="mt-2 text-center text-lg font-semibold text-primary">
                   Kỹ sư Mạng Máy tính
                 </p>
-                <div className="mt-6 space-y-3 text-base text-muted-foreground">
-                  <p className="font-semibold text-lg text-foreground">Sinh viên Đại học</p>
+                <div className="mt-4 space-y-2 text-sm text-muted-foreground">
+                  <p className="font-semibold text-base text-foreground">Sinh viên Đại học</p>
                   <p>Đại học Công nghệ TP. Hồ Chí Minh (HUTECH)</p>
                   <p>Lớp: 22DTHE4</p>
                 </div>
-                <div className="mt-6 flex items-center justify-center space-x-4">
+                <div className="mt-4 flex items-center justify-center space-x-3">
                   {SOCIALS.map((social) => (
                     <Link
                       key={social.label}
                       href={social.path}
                       rel="noreferrer"
                       target="_blank"
-                      className="text-primary hover:bg-primary hover:text-primary-foreground transition-colors rounded-full p-4 size-14 bg-primary/10 flex items-center justify-center"
+                      className="text-primary hover:bg-primary hover:text-primary-foreground transition-colors rounded-full p-3 size-11 bg-primary/10 flex items-center justify-center"
                     >
-                      <social.icon className="size-7" />
+                      <social.icon className="size-5" />
                       <span className="sr-only">{social.label}</span>
                     </Link>
                   ))}
@@ -59,9 +59,9 @@ export default function AboutPage() {
             </div>
 
             {/* Định hướng & Mục tiêu nghề nghiệp - Khung 3D */}
-            <div className="space-y-6 rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
-              <h2 className="text-2xl lg:text-3xl font-bold">🌱 Định hướng & Mục tiêu nghề nghiệp</h2>
-              <p className="text-xl lg:text-2xl leading-relaxed text-gray-700">
+            <div className="space-y-4 rounded-2xl border-2 border-gray-200 bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
+              <h2 className="text-xl lg:text-2xl font-bold">🌱 Định hướng & Mục tiêu nghề nghiệp</h2>
+              <p className="text-base lg:text-lg leading-relaxed text-gray-700">
                 Mục tiêu của tôi là không ngừng trau dồi kiến thức chuyên môn và kỹ năng thực hành để trở thành một 
                 <strong className="text-gray-900"> Kỹ sư Mạng Máy Tính chuyên nghiệp</strong>, có khả năng tham gia thiết kế, triển khai, 
                 giám sát và vận hành các hệ thống mạng và hạ tầng CNTT. Trong tương lai, tôi mong muốn phát triển sâu hơn trong các vị trí như 
@@ -72,11 +72,11 @@ export default function AboutPage() {
           </div>
 
           {/* Bên phải: Nội dung giới thiệu */}
-          <div className="flex-1 space-y-10">
+          <div className="flex-1 space-y-6">
             {/* Giới thiệu bản thân - Khung 3D */}
-            <div className="space-y-6 rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
-              <h2 className="text-2xl lg:text-3xl font-bold">🎯 Giới thiệu bản thân</h2>
-              <p className="text-xl lg:text-2xl leading-relaxed text-gray-700">
+            <div className="space-y-4 rounded-2xl border-2 border-gray-200 bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
+              <h2 className="text-xl lg:text-2xl font-bold">🎯 Giới thiệu bản thân</h2>
+              <p className="text-base lg:text-lg leading-relaxed text-gray-700">
                 Tôi là <strong className="text-gray-900">Nguyễn Trình Quỳnh Như</strong>, sinh viên ngành Công nghệ thông tin tại 
                 Đại học Công nghệ TP. Hồ Chí Minh, có niềm đam mê với lĩnh vực hạ tầng mạng, quản trị hệ thống và điện toán đám mây. 
                 Trong quá trình học tập, tôi được trang bị nền tảng kiến thức về mạng máy tính, nguyên lý hoạt động của các hệ thống mạng doanh nghiệp, 
@@ -97,25 +97,25 @@ export default function AboutPage() {
                   <Network className="size-8 text-primary flex-shrink-0" />
                   <h3 className="text-2xl lg:text-3xl font-semibold">Kiến thức nền tảng Mạng máy tính</h3>
                 </div>
-                <div className="flex items-center space-x-4 rounded-xl bg-gray-50 p-6 border-2 border-gray-200">
-                  <Server className="size-8 text-primary flex-shrink-0" />
-                  <h3 className="text-2xl lg:text-3xl font-semibold">Quản trị Hệ thống</h3>
+                <div className="flex items-center space-x-3 rounded-xl bg-gray-50 p-4 border-2 border-gray-200">
+                  <Server className="size-6 text-primary shrink-0" />
+                  <h3 className="text-lg lg:text-xl font-semibold">Quản trị Hệ thống</h3>
                 </div>
-                <div className="flex items-center space-x-4 rounded-xl bg-gray-50 p-6 border-2 border-gray-200">
-                  <Database className="size-8 text-primary flex-shrink-0" />
-                  <h3 className="text-2xl lg:text-3xl font-semibold">Dịch vụ Mạng cơ bản</h3>
+                <div className="flex items-center space-x-3 rounded-xl bg-gray-50 p-4 border-2 border-gray-200">
+                  <Database className="size-6 text-primary shrink-0" />
+                  <h3 className="text-lg lg:text-xl font-semibold">Dịch vụ Mạng cơ bản</h3>
                 </div>
-                <div className="flex items-center space-x-4 rounded-xl bg-gray-50 p-6 border-2 border-gray-200">
-                  <Cloud className="size-8 text-primary flex-shrink-0" />
-                  <h3 className="text-2xl lg:text-3xl font-semibold">Ảo hóa & Điện toán đám mây</h3>
+                <div className="flex items-center space-x-3 rounded-xl bg-gray-50 p-4 border-2 border-gray-200">
+                  <Cloud className="size-6 text-primary shrink-0" />
+                  <h3 className="text-lg lg:text-xl font-semibold">Ảo hóa & Điện toán đám mây</h3>
                 </div>
-                <div className="flex items-center space-x-4 rounded-xl bg-gray-50 p-6 border-2 border-gray-200">
-                  <Shield className="size-8 text-primary flex-shrink-0" />
-                  <h3 className="text-2xl lg:text-3xl font-semibold">Bảo mật Mạng</h3>
+                <div className="flex items-center space-x-3 rounded-xl bg-gray-50 p-4 border-2 border-gray-200">
+                  <Shield className="size-6 text-primary shrink-0" />
+                  <h3 className="text-lg lg:text-xl font-semibold">Bảo mật Mạng</h3>
                 </div>
-                <div className="flex items-center space-x-4 rounded-xl bg-gray-50 p-6 border-2 border-gray-200">
-                  <Code className="size-8 text-primary flex-shrink-0" />
-                  <h3 className="text-2xl lg:text-3xl font-semibold">Kỹ năng mềm</h3>
+                <div className="flex items-center space-x-3 rounded-xl bg-gray-50 p-4 border-2 border-gray-200">
+                  <Code className="size-6 text-primary shrink-0" />
+                  <h3 className="text-lg lg:text-xl font-semibold">Kỹ năng mềm</h3>
                 </div>
               </div>
             </div>
@@ -123,13 +123,13 @@ export default function AboutPage() {
         </div>
 
         {/* Quá trình học tập - Timeline Horizontal (Full width) */}
-        <div className="mt-12 w-full">
-          <div className="space-y-6 rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
-            <h2 className="text-2xl lg:text-3xl font-bold flex items-center gap-4">
-              <GraduationCap className="size-8 text-primary" />
+        <div className="mt-8 w-full">
+          <div className="space-y-4 rounded-2xl border-2 border-gray-200 bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
+            <h2 className="text-xl lg:text-2xl font-bold flex items-center gap-3">
+              <GraduationCap className="size-6 text-primary" />
               Quá trình học tập
             </h2>
-            <div className="relative py-12">
+            <div className="relative py-8">
               {/* Timeline line horizontal */}
               <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary transform -translate-y-1/2"></div>
               
@@ -149,7 +149,7 @@ export default function AboutPage() {
                         <h4 className="font-bold text-2xl lg:text-3xl mb-3">{item.title}</h4>
                         <p className="text-base lg:text-lg leading-relaxed">{item.detail}</p>
                         <div 
-                          className="absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-[6px] border-transparent"
+                          className="absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-[4px] border-transparent"
                           style={index % 2 === 0 
                             ? { top: '100%', borderTopColor: 'rgb(219 39 119)' } 
                             : { bottom: '100%', borderBottomColor: 'rgb(219 39 119)' }

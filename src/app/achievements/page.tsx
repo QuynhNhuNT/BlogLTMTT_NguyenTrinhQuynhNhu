@@ -282,34 +282,34 @@ export default function AchievementsPage() {
                 className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
                 onClick={() => setSelectedCert(null)}
               >
-                <div 
-                  className="relative bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 shadow-2xl border-2 border-gray-200"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button
-                    onClick={() => setSelectedCert(null)}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 transition-colors"
+                  <div
+                    className="relative bg-white rounded-2xl p-6 max-w-xl w-full mx-4 shadow-2xl border-2 border-gray-200"
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <X className="size-8" />
-                  </button>
-                  
-                  <h3 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 pr-12">
-                    {selectedCert.name}
-                  </h3>
-                  
-                  {selectedCert.description && selectedCert.description.length > 0 && (
-                    <div className="mt-6">
-                      <h4 className="mb-4 text-xl lg:text-2xl font-semibold text-gray-900">Kỹ năng có được:</h4>
-                      <ul className="space-y-3">
-                        {selectedCert.description.map((desc, idx) => (
-                          <li key={idx} className="flex items-start gap-3 text-base lg:text-lg text-gray-700">
-                            <span className="mt-1 text-xl text-green-500 font-bold">✓</span>
-                            <span>{desc}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                    <button
+                      onClick={() => setSelectedCert(null)}
+                      className="absolute top-3 right-3 text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                      <X className="size-6" />
+                    </button>
+
+                    <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3 pr-10">
+                      {selectedCert.name}
+                    </h3>
+
+                    {selectedCert.description && selectedCert.description.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="mb-3 text-base lg:text-lg font-semibold text-gray-900">Kỹ năng có được:</h4>
+                        <ul className="space-y-2">
+                          {selectedCert.description.map((desc, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-sm lg:text-base text-gray-700">
+                              <span className="mt-1 text-base text-green-500 font-bold">✓</span>
+                              <span>{desc}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                 </div>
               </div>
             )}

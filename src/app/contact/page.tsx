@@ -47,35 +47,35 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-pink-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-pink-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1600px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left Side - Contact Information */}
-          <div className="space-y-12">
+          <div className="space-y-8">
             <div>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
                 Liên hệ với mình
               </h1>
-              <p className="text-2xl lg:text-3xl text-gray-600 leading-relaxed">
+              <p className="text-lg lg:text-xl text-gray-600 leading-relaxed">
                 Hãy để lại thông tin, mình sẽ phản hồi sớm nhất có thể!
               </p>
             </div>
 
-            <div className="space-y-10">
-              <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+            <div className="space-y-6">
+              <div className="rounded-2xl border-2 border-gray-200 bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
+                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
                   📧 Email
                 </h3>
                 <a
                   href="mailto:nguyentrinhquynhnhu.2004@gmail.com"
-                  className="text-xl lg:text-2xl text-gray-700 hover:text-primary transition-colors break-all"
+                  className="text-base lg:text-lg text-gray-700 hover:text-primary transition-colors break-all"
                 >
                   nguyentrinhquynhnhu.2004@gmail.com
                 </a>
               </div>
 
-              <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              <div className="rounded-2xl border-2 border-gray-200 bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] transition-shadow">
+                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
                   📱 Số điện thoại
                 </h3>
                 <a
