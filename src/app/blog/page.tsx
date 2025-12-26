@@ -185,7 +185,7 @@ export default function BlogPage() {
         </div>
       ) : searchQuery ? (
         <p className="text-center text-2xl text-gray-500">
-          Không tìm thấy bài viết nào với từ khóa "{searchQuery}"
+          Không tìm thấy bài viết nào với từ khóa &quot;{searchQuery}&quot;
         </p>
       ) : (
         <p className="text-center text-2xl text-gray-500">Chưa có bài viết nào</p>

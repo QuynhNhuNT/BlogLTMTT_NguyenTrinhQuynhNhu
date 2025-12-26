@@ -370,7 +370,7 @@ export default function AchievementsPage() {
                             <h4 className="font-bold text-xl lg:text-2xl mb-2">{skill}</h4>
                             <p className="text-sm lg:text-base leading-relaxed">{description}</p>
                             <div 
-                              className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-6 border-transparent border-t-pink-600"
+                              className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-[6px] border-transparent border-t-pink-600"
                             ></div>
                           </div>
                         </div>
@@ -411,7 +411,7 @@ export default function AchievementsPage() {
                   <ul className="mt-6 space-y-3">
                     {item.description.map((desc, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-base text-muted-foreground">
-                        <span className="mt-2 text-lg text-primary">//</span>
+                        <span className="mt-2 text-lg text-primary">{'//'}</span>
                         <span>{desc}</span>
                       </li>
                     ))}
@@ -464,7 +464,7 @@ export default function AchievementsPage() {
                   <ul className="mt-6 space-y-4">
                     {item.description.map((desc, idx) => (
                       <li key={idx} className="flex items-start gap-4 text-lg lg:text-xl text-muted-foreground">
-                        <span className="mt-2 text-xl lg:text-2xl text-primary">//</span>
+                        <span className="mt-2 text-xl lg:text-2xl text-primary">{'//'}</span>
                         <span>{desc}</span>
                       </li>
                     ))}

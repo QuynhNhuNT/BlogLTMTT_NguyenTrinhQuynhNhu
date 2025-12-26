@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { siteConfig } from "@/config/site";
 import { SOCIALS } from "@/constants";
 import Link from "next/link";

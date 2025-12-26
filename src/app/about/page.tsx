@@ -28,7 +28,7 @@ export default function AboutPage() {
                 width={160}
                 height={160}
                 alt="Nguyễn Trình Quỳnh Như"
-                className="absolute -top-16 mb-4 rounded-full border-6 border-primary bg-primary object-cover aspect-square"
+                className="absolute -top-16 mb-4 rounded-full border-[6px] border-primary bg-primary object-cover aspect-square"
                 style={{ borderRadius: '50%' }}
               />
               <div className="mt-16 text-center">
@@ -149,7 +149,7 @@ export default function AboutPage() {
                         <h4 className="font-bold text-2xl lg:text-3xl mb-3">{item.title}</h4>
                         <p className="text-base lg:text-lg leading-relaxed">{item.detail}</p>
                         <div 
-                          className="absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-6 border-transparent"
+                          className="absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-[6px] border-transparent"
                           style={index % 2 === 0 
                             ? { top: '100%', borderTopColor: 'rgb(219 39 119)' } 
                             : { bottom: '100%', borderBottomColor: 'rgb(219 39 119)' }
